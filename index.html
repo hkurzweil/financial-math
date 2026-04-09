@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life Budget — Start Your Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F7F4EF; --card: #FFFFFF; --text: #2A2420; --muted: #7A6E68;
+      --border: #E2D8CF; --accent: #C17F3A; --green: #2D7D52; --blue: #4A7BA7;
+    }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    .top-bar {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
+    }
+    .top-bar .logo { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--text); }
+    .top-bar .course-tag { font-size: 12px; color: var(--muted); background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 3px 12px; }
+
+    .hero {
+      background: var(--accent); color: white; text-align: center;
+      padding: 3rem 1.5rem 2rem;
+    }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: 34px; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.2; }
+    .hero p { font-size: 15px; opacity: 0.88; max-width: 480px; margin: 0 auto 1.5rem; }
+    .stage-pills { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px; padding: 4px 14px; font-size: 12px; font-weight: 500;
+    }
+
+    .main { max-width: 700px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+    .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .section-num {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+      color: white; font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .section-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+
+    .creator-wrap { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: flex-start; justify-content: center; margin-bottom: 1.5rem; }
+
+    .avatar-frame {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 14px; display: inline-block; flex-shrink: 0;
+    }
+    .name-tag { text-align: center; font-size: 13px; font-weight: 500; color: var(--muted); margin: 8px 0 0; min-height: 18px; }
+
+    .controls { flex: 1; min-width: 210px; display: flex; flex-direction: column; gap: 14px; }
+    .ctrl-label { font-size: 11px; color: var(--muted); margin: 0 0 7px; letter-spacing: 0.06em; }
+
+    .swatch-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .swatch {
+      width: 27px; height: 27px; border-radius: 50%;
+      border: 0.5px solid var(--border); cursor: pointer; padding: 0;
+      outline: 2.5px solid transparent; outline-offset: 2px;
+    }
+    .tab-row { display: flex; gap: 5px; flex-wrap: wrap; }
+    .tab {
+      padding: 5px 11px; font-size: 12px; border-radius: 8px; cursor: pointer;
+      background: var(--bg); color: var(--text); border: 0.5px solid var(--border);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .tab.active { background: #EEF4FA; color: #185FA5; border-color: #B5D4F4; }
+
+    .profile-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 8px;
+    }
+    .profile-card p { font-size: 11px; color: var(--muted); margin-bottom: 2px; letter-spacing: 0.06em; }
+    input[type="text"] {
+      width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text);
+      background: var(--card); outline: none;
+    }
+    input[type="text"]:focus { border-color: var(--accent); }
+
+    .begin-btn {
+      width: 100%; padding: 15px; font-size: 16px; font-weight: 600;
+      background: var(--text); color: white; border: none; border-radius: 12px;
+      cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 10px;
+    }
+    .begin-btn:hover { background: #1A1210; }
+
+    .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 1.5rem; }
+    .about-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1rem; text-align: center;
+    }
+    .about-card .num { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+    .about-card p { font-size: 13px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span class="logo">Life Budget</span>
+  <span class="course-tag">MATH 105 — Fort Lewis College</span>
+</div>
+
+<div class="hero">
+  <h1>Your financial life,<br><em>in your hands.</em></h1>
+  <p>Build a real budget, buy a real home, and plan a real retirement — for the life you actually want after graduation.</p>
+  <div class="stage-pills">
+    <span class="pill">Stage 1 — First Budget</span>
+    <span class="pill">Stage 2 — Buying a Home</span>
+    <span class="pill">Stage 3 — Retirement</span>
+  </div>
+</div>
+
+<main class="main">
+
+  <section style="margin-bottom: 2.5rem;">
+    <div class="section-label">
+      <div class="section-num">1</div>
+      <h2 class="section-title">Create your character</h2>
+    </div>
+
+    <div class="creator-wrap">
+
+      <!-- AVATAR PREVIEW -->
+      <div>
+        <div class="avatar-frame">
+          <svg id="av" viewBox="0 0 200 310" width="160" height="248" xmlns="http://www.w3.org/2000/svg">
+            <rect id="shirt" x="52" y="186" width="96" height="118" rx="22" fill="#378ADD"/>
+            <path id="collar" d="M90 186 L100 202 L110 186" fill="#2469AA"/>
+            <rect id="neck" x="87" y="162" width="26" height="28" fill="#FEEBD3"/>
+            <g id="hair-sides"></g>
+            <circle id="ear-l" cx="43" cy="114" r="10" fill="#FEEBD3"/>
+            <circle id="ear-r" cx="157" cy="114" r="10" fill="#FEEBD3"/>
+            <circle id="head-c" cx="100" cy="112" r="57" fill="#FEEBD3"/>
+            <g id="hair-top">
+              <path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="#6B3F1E"/>
+            </g>
+            <path id="brow-l" d="M73 95 Q83 89 92 94" stroke="#6B3F1E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path id="brow-r" d="M108 94 Q117 89 127 95" stroke="#6B3F1E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <ellipse cx="82" cy="108" rx="10" ry="10" fill="white"/>
+            <ellipse cx="118" cy="108" rx="10" ry="10" fill="white"/>
+            <circle id="iris-l" cx="82" cy="108" r="6" fill="#6B3F1E"/>
+            <circle id="iris-r" cx="118" cy="108" r="6" fill="#6B3F1E"/>
+            <circle cx="83" cy="107" r="2.5" fill="#111"/>
+            <circle cx="119" cy="107" r="2.5" fill="#111"/>
+            <circle cx="85" cy="105" r="1.5" fill="white"/>
+            <circle cx="121" cy="105" r="1.5" fill="white"/>
+            <path d="M97 120 Q100 126 103 120" stroke="#C4855A" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M86 135 Q100 146 114 135" stroke="#B06060" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="70" cy="122" r="9" fill="#FFB8A0" opacity="0.28"/>
+            <circle cx="130" cy="122" r="9" fill="#FFB8A0" opacity="0.28"/>
+          </svg>
+        </div>
+        <p class="name-tag" id="name-tag"></p>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="controls">
+
+        <div>
+          <p class="ctrl-label">skin tone</p>
+          <div class="swatch-row" id="g-skin">
+            <button class="swatch" onclick="pick(this,'g-skin');setSkin('#FEEBD3')" style="background:#FEEBD3;outline-color:#FEEBD3;"></button>
+            <button class="swatch" onclick="pick(this,'g-skin');setSkin('#F4C49E')" style="background:#F4C49E;"></button>
+            <button class="swatch" onclick="pick(this,'g-skin');setSkin('#D4956A')" style="background:#D4956A;"></button>
+            <button class="swatch" onclick="pick(this,'g-skin');setSkin('#A0714F')" style="background:#A0714F;"></button>
+            <button class="swatch" onclick="pick(this,'g-skin');setSkin('#5C3D2E')" style="background:#5C3D2E;"></button>
+          </div>
+        </div>
+
+        <div>
+          <p class="ctrl-label">hair style</p>
+          <div class="tab-row" id="g-style">
+            <button class="tab" onclick="pickTab(this,'g-style');setStyle('bald')">bald</button>
+            <button class="tab active" onclick="pickTab(this,'g-style');setStyle('short')">short</button>
+            <button class="tab" onclick="pickTab(this,'g-style');setStyle('medium')">medium</button>
+            <button class="tab" onclick="pickTab(this,'g-style');setStyle('long')">long</button>
+          </div>
+        </div>
+
+        <div>
+          <p class="ctrl-label">texture</p>
+          <div class="tab-row" id="g-texture">
+            <button class="tab active" onclick="pickTab(this,'g-texture');setTexture('straight')">straight</button>
+            <button class="tab" onclick="pickTab(this,'g-texture');setTexture('curly')">curly</button>
+          </div>
+        </div>
+
+        <div>
+          <p class="ctrl-label">hair color</p>
+          <div class="swatch-row" id="g-hair">
+            <button class="swatch" onclick="pick(this,'g-hair');setHair('#1A1A1A')" style="background:#1A1A1A;"></button>
+            <button class="swatch" onclick="pick(this,'g-hair');setHair('#6B3F1E')" style="background:#6B3F1E;outline-color:#6B3F1E;"></button>
+            <button class="swatch" onclick="pick(this,'g-hair');setHair('#C17F3A')" style="background:#C17F3A;"></button>
+            <button class="swatch" onclick="pick(this,'g-hair');setHair('#E8C96B')" style="background:#E8C96B;"></button>
+            <button class="swatch" onclick="pick(this,'g-hair');setHair('#B34A80')" style="background:#B34A80;"></button>
+            <button class="swatch" onclick="pick(this,'g-hair');setHair('#3D7AAA')" style="background:#3D7AAA;"></button>
+            <button class="swatch" onclick="pick(this,'g-hair');setHair('#888888')" style="background:#888888;"></button>
+            <button class="swatch" onclick="pick(this,'g-hair');setHair('#EBEBEB')" style="background:#EBEBEB;"></button>
+          </div>
+        </div>
+
+        <div>
+          <p class="ctrl-label">eye color</p>
+          <div class="swatch-row" id="g-eye">
+            <button class="swatch" onclick="pick(this,'g-eye');setEye('#6B3F1E')" style="background:#6B3F1E;outline-color:#6B3F1E;"></button>
+            <button class="swatch" onclick="pick(this,'g-eye');setEye('#378ADD')" style="background:#378ADD;"></button>
+            <button class="swatch" onclick="pick(this,'g-eye');setEye('#3D7A4A')" style="background:#3D7A4A;"></button>
+            <button class="swatch" onclick="pick(this,'g-eye');setEye('#8B6914')" style="background:#8B6914;"></button>
+          </div>
+        </div>
+
+        <div>
+          <p class="ctrl-label">outfit</p>
+          <div class="swatch-row" id="g-outfit">
+            <button class="swatch" onclick="pick(this,'g-outfit');setOutfit('#378ADD','#2469AA')" style="background:#378ADD;outline-color:#378ADD;"></button>
+            <button class="swatch" onclick="pick(this,'g-outfit');setOutfit('#1D9E75','#0F6E56')" style="background:#1D9E75;"></button>
+            <button class="swatch" onclick="pick(this,'g-outfit');setOutfit('#D85A30','#993C1D')" style="background:#D85A30;"></button>
+            <button class="swatch" onclick="pick(this,'g-outfit');setOutfit('#7F77DD','#534AB7')" style="background:#7F77DD;"></button>
+            <button class="swatch" onclick="pick(this,'g-outfit');setOutfit('#BA7517','#854F0B')" style="background:#BA7517;"></button>
+            <button class="swatch" onclick="pick(this,'g-outfit');setOutfit('#444441','#2C2C2A')" style="background:#444441;"></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PROFILE INPUTS -->
+    <div class="profile-card">
+      <p>your profile</p>
+      <input type="text" id="pname"   placeholder="Your name" oninput="document.getElementById('name-tag').textContent=this.value"/>
+      <input type="text" id="pcareer" placeholder="Dream career (e.g. nurse, park ranger, graphic designer...)"/>
+      <input type="text" id="pcity"   placeholder="City you'd like to live in"/>
+    </div>
+    <button class="begin-btn" onclick="go()">Begin your journey — Stage 1 →</button>
+  </section>
+
+  <section>
+    <div class="section-label">
+      <div class="section-num">?</div>
+      <h2 class="section-title">What is this project?</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-card"><div class="num">3</div><p>stages of your financial life after graduation</p></div>
+      <div class="about-card"><div class="num">1</div><p>CODAP file you'll build stage by stage</p></div>
+      <div class="about-card"><div class="num">∞</div><p>possible futures — you choose your own path</p></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-top:1rem;font-size:14px;color:var(--muted);line-height:1.8;">
+      <p>In this project you'll figure out what your first paycheck actually looks like after taxes, build a realistic monthly budget, save for a home, and plan for retirement — using real data for the career and city you choose. By the end, you'll have a full financial picture of one possible version of your adult life, built entirely by you.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const av = { style:'short', texture:'straight', hair:'#6B3F1E', eye:'#6B3F1E', shirt:'#378ADD', collar:'#2469AA' };
+
+const HAIR = {
+  bald:   { straight:{top:()=>'',sides:()=>''}, curly:{top:()=>'',sides:()=>''} },
+  short:  {
+    straight: { top:  c=>`<path d="M46 122 A57 57 0 0 1 154 122 Q152 66 128 59 Q114 55 100 55 Q86 55 72 59 Q48 66 46 122 Z" fill="${c}"/>`, sides: ()=>'' },
+    curly:    { top:  c=>`<circle cx="66" cy="93" r="17" fill="${c}"/><circle cx="83" cy="77" r="18" fill="${c}"/><circle cx="100" cy="72" r="19" fill="${c}"/><circle cx="117" cy="77" r="18" fill="${c}"/><circle cx="134" cy="93" r="17" fill="${c}"/>`, sides: ()=>'' }
+  },
+  medium: {
+    straight: { top:  c=>`<path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="${c}"/>`, sides: c=>`<rect x="35" y="104" width="19" height="76" rx="9" fill="${c}"/><rect x="146" y="104" width="19" height="76" rx="9" fill="${c}"/>` },
+    curly:    { top:  c=>`<circle cx="60" cy="84" r="21" fill="${c}"/><circle cx="80" cy="63" r="23" fill="${c}"/><circle cx="100" cy="57" r="24" fill="${c}"/><circle cx="120" cy="63" r="23" fill="${c}"/><circle cx="140" cy="84" r="21" fill="${c}"/>`, sides: c=>`<circle cx="41" cy="112" r="17" fill="${c}"/><circle cx="41" cy="144" r="17" fill="${c}"/><circle cx="159" cy="112" r="17" fill="${c}"/><circle cx="159" cy="144" r="17" fill="${c}"/>` }
+  },
+  long: {
+    straight: { top:  c=>`<path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="${c}"/>`, sides: c=>`<rect x="34" y="102" width="21" height="158" rx="10" fill="${c}"/><rect x="145" y="102" width="21" height="158" rx="10" fill="${c}"/>` },
+    curly:    { top:  c=>`<circle cx="58" cy="80" r="22" fill="${c}"/><circle cx="80" cy="58" r="24" fill="${c}"/><circle cx="103" cy="52" r="24" fill="${c}"/><circle cx="127" cy="60" r="22" fill="${c}"/><circle cx="147" cy="78" r="20" fill="${c}"/>`, sides: c=>`<circle cx="41" cy="110" r="17" fill="${c}"/><circle cx="41" cy="144" r="17" fill="${c}"/><circle cx="41" cy="176" r="16" fill="${c}"/><circle cx="159" cy="110" r="17" fill="${c}"/><circle cx="159" cy="144" r="17" fill="${c}"/><circle cx="159" cy="176" r="16" fill="${c}"/>` }
+  }
+};
+
+function renderHair() {
+  const h = HAIR[av.style][av.texture];
+  document.getElementById('hair-top').innerHTML   = h.top(av.hair);
+  document.getElementById('hair-sides').innerHTML = h.sides(av.hair);
+  ['brow-l','brow-r'].forEach(id => document.getElementById(id).setAttribute('stroke', av.style==='bald' ? 'transparent' : av.hair));
+}
+
+function pick(btn, gid) {
+  document.getElementById(gid).querySelectorAll('.swatch').forEach(b => b.style.outlineColor = 'transparent');
+  btn.style.outlineColor = btn.style.background;
+}
+
+function pickTab(btn, gid) {
+  document.getElementById(gid).querySelectorAll('.tab').forEach(b => b.className = 'tab');
+  btn.className = 'tab active';
+}
+
+function setSkin(c) { ['head-c','ear-l','ear-r','neck'].forEach(id => document.getElementById(id).setAttribute('fill',c)); }
+function setStyle(s) {
+  av.style = s;
+  const tw = document.getElementById('g-texture');
+  tw.style.opacity = s==='bald'?'0.35':'1';
+  tw.style.pointerEvents = s==='bald'?'none':'';
+  renderHair();
+}
+function setTexture(t) { av.texture=t; renderHair(); }
+function setHair(c)    { av.hair=c;    renderHair(); }
+function setEye(c)     { ['iris-l','iris-r'].forEach(id => document.getElementById(id).setAttribute('fill',c)); }
+function setOutfit(c,d){ document.getElementById('shirt').setAttribute('fill',c); document.getElementById('collar').setAttribute('fill',d); av.shirt=c; av.collar=d; }
+
+function go() {
+  const name   = document.getElementById('pname').value.trim();
+  const career = document.getElementById('pcareer').value.trim();
+  const city   = document.getElementById('pcity').value.trim();
+  if (!name || !career || !city) { alert('Please fill in your name, dream career, and city to begin!'); return; }
+  const params = new URLSearchParams({ name, career, city, skin: document.getElementById('head-c').getAttribute('fill'), style: av.style, texture: av.texture, hair: av.hair, eye: document.getElementById('iris-l').getAttribute('fill'), shirt: av.shirt, collar: av.collar });
+  window.location.href = 'stage1.html?' + params.toString();
+}
+</script>
+</body>
+</html>
