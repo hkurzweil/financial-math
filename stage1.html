@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage 1: Your First Budget — Life Budget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F7F4EF; --card: #FFFFFF; --text: #2A2420; --muted: #7A6E68;
+      --border: #E2D8CF; --accent: #C17F3A; --green: #2D7D52; --blue: #4A7BA7;
+      --red: #B84040; --yellow: #9A6A10;
+    }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 0.6rem 1.25rem; display: flex; align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; flex: 1; }
+    .header-sub  { font-size: 12px; color: var(--muted); }
+    .stage-track { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
+    .st-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+    .st-dot.on { background: var(--accent); width: 28px; border-radius: 5px; }
+
+    /* ── HERO ── */
+    .hero { background: var(--accent); color: white; padding: 2rem 1.5rem 1.75rem; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); border-radius: 20px; padding: 3px 12px; font-size: 11px; font-weight: 500; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .hero h2 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; line-height: 1.25; margin-bottom: 0.4rem; }
+    .hero p { font-size: 14px; opacity: 0.88; max-width: 520px; }
+
+    /* ── LAYOUT ── */
+    .main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    .section { margin-bottom: 2.75rem; }
+    .sec-label { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .sec-num {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+      color: white; font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sec-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+
+    /* ── CARDS ── */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; }
+    .card + .card { margin-top: 0.75rem; }
+
+    /* ── CALLOUT BOXES ── */
+    .box-blue   { background: #EEF4FA; border: 1px solid #B5D4F4; border-radius: 10px; padding: 1rem 1.25rem; color: #185FA5; font-size: 14px; margin-bottom: 1rem; }
+    .box-yellow { background: #FFF8EE; border: 1px solid #FAC775; border-radius: 10px; padding: 1rem 1.25rem; color: #633806; font-size: 14px; }
+    .box-green  { background: #EAF5EF; border: 1px solid #9FE1CB; border-radius: 12px; padding: 1.25rem; color: #0F6E56; font-size: 14px; }
+    .box-red    { background: #FCEBEB; border: 1px solid #F09595; border-radius: 12px; padding: 1.25rem; color: #7A1F1F; font-size: 14px; }
+    .box-label  { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 4px; display: block; }
+
+    /* ── RESOURCE LINKS ── */
+    .res-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.75rem; }
+    .res-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; font-size: 13px; font-weight: 500; color: var(--blue);
+      text-decoration: none;
+    }
+    .res-link:hover { border-color: var(--blue); }
+
+    /* ── SALARY INPUT ── */
+    .salary-wrap { display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap; }
+    .salary-input-group { flex: 1; min-width: 200px; }
+    .salary-input-group label { display: block; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 5px; }
+    .dollar-field {
+      display: flex; align-items: stretch; border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--card);
+    }
+    .dollar-field:focus-within { border-color: var(--accent); }
+    .dollar-field .sym { padding: 0 10px; background: var(--bg); border-right: 1px solid var(--border); display: flex; align-items: center; font-size: 16px; color: var(--muted); font-weight: 500; }
+    .dollar-field input { flex: 1; border: none; outline: none; padding: 0 12px; font-size: 16px; font-family: 'DM Sans', sans-serif; color: var(--text); height: 46px; background: transparent; }
+    .gross-display { text-align: right; min-width: 130px; }
+    .gross-display .gdl { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 3px; }
+    .gross-display .gv  { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--blue); }
+
+    /* ── TAX TABLE ── */
+    .tax-tbl { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 0.5rem; }
+    .tax-tbl td { padding: 9px 2px; }
+    .tax-tbl td:last-child { text-align: right; font-weight: 500; }
+    .tax-tbl tr + tr td { border-top: 1px solid var(--border); }
+    .tax-tbl .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .tax-tbl .neg { color: var(--red); }
+    .tax-tbl .tot td { font-size: 15px; font-weight: 600; border-top: 2px solid var(--border) !important; padding-top: 12px; }
+    .tax-tbl .tot td:last-child { color: var(--green); }
+
+    /* ── BUDGET TABLE ── */
+    .bud-tbl { width: 100%; border-collapse: collapse; }
+    .bud-tbl th { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; padding: 0 6px 10px; text-align: left; }
+    .bud-tbl th:last-child { text-align: right; }
+    .bud-tbl .bcat-row td { padding: 7px 6px; border-top: 1px solid var(--border); vertical-align: middle; }
+    .bud-tbl .bcat-row:first-of-type td { border-top: none; }
+    .bud-tbl .sec-hdr td { background: var(--bg); font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 6px 6px; border-top: none !important; }
+    .cat-name { font-size: 14px; font-weight: 500; }
+    .cat-hint { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .range-hint { font-size: 12px; color: var(--muted); }
+    .bud-input {
+      width: 100px; text-align: right; border: 1px solid var(--border); border-radius: 7px;
+      padding: 6px 8px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+      color: var(--text); background: var(--bg); outline: none; display: block; margin-left: auto;
+    }
+    .bud-input:focus { border-color: var(--accent); background: var(--card); }
+
+    /* ── SUMMARY BAR ── */
+    .sum-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; text-align: center; }
+    .sum-item .slabel { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .sum-item .sval { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; }
+    .sum-item.si { color: var(--blue); }
+    .sum-item.se { color: var(--red); }
+    .sum-item.ss { color: var(--green); }
+
+    /* ── PROGRESS BAR ── */
+    .prog-wrap { background: var(--border); border-radius: 8px; height: 9px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 8px; width: 0%; transition: width 0.3s; }
+    .pf-ok   { background: var(--green); }
+    .pf-warn { background: var(--accent); }
+    .pf-over { background: var(--red); }
+
+    /* ── CODAP BOX ── */
+    .codap-box { background: var(--green); border-radius: 16px; padding: 1.75rem; color: white; text-align: center; }
+    .codap-box h3 { font-family: 'Fraunces', serif; font-size: 20px; margin-bottom: 0.5rem; }
+    .codap-box p { font-size: 14px; opacity: 0.9; margin-bottom: 1.25rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .codap-btn { display: inline-block; background: white; color: #1A5A38; padding: 10px 24px; border-radius: 24px; font-weight: 600; font-size: 14px; text-decoration: none; }
+
+    /* ── NEXT BUTTON ── */
+    .next-btn { display: block; width: 100%; text-align: center; background: var(--text); color: white; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 2rem; text-decoration: none; }
+
+    @media (max-width: 520px) {
+      .sum-bar { grid-template-columns: 1fr; }
+      .hero h2 { font-size: 21px; }
+      .salary-wrap { flex-direction: column; align-items: stretch; }
+      .gross-display { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <svg id="av-mini" viewBox="0 0 200 310" width="38" height="59" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+    <rect id="m-shirt"  x="52"  y="186" width="96"  height="118" rx="22" fill="#378ADD"/>
+    <path id="m-collar" d="M90 186 L100 202 L110 186" fill="#2469AA"/>
+    <rect id="m-neck"   x="87"  y="162" width="26"  height="28"  fill="#FEEBD3"/>
+    <g id="m-hsides"></g>
+    <circle id="m-earl"  cx="43"  cy="114" r="10" fill="#FEEBD3"/>
+    <circle id="m-earr"  cx="157" cy="114" r="10" fill="#FEEBD3"/>
+    <circle id="m-head"  cx="100" cy="112" r="57" fill="#FEEBD3"/>
+    <g id="m-htop"><path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="#6B3F1E"/></g>
+    <path id="m-brl" d="M73 95 Q83 89 92 94"   stroke="#6B3F1E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path id="m-brr" d="M108 94 Q117 89 127 95" stroke="#6B3F1E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="82"  cy="108" rx="10" ry="10" fill="white"/>
+    <ellipse cx="118" cy="108" rx="10" ry="10" fill="white"/>
+    <circle id="m-irl" cx="82"  cy="108" r="6" fill="#6B3F1E"/>
+    <circle id="m-irr" cx="118" cy="108" r="6" fill="#6B3F1E"/>
+    <circle cx="83"  cy="107" r="2.5" fill="#111"/>
+    <circle cx="119" cy="107" r="2.5" fill="#111"/>
+    <circle cx="85"  cy="105" r="1.5" fill="white"/>
+    <circle cx="121" cy="105" r="1.5" fill="white"/>
+    <path d="M97 120 Q100 126 103 120" stroke="#C4855A" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M86 135 Q100 146 114 135" stroke="#B06060" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </svg>
+  <div style="flex:1;">
+    <div class="header-name" id="hdr-name">Life Budget</div>
+    <div class="header-sub"  id="hdr-sub">Stage 1 of 3</div>
+  </div>
+  <div class="stage-track">
+    <div class="st-dot on"></div>
+    <div class="st-dot"></div>
+    <div class="st-dot"></div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge">STAGE 1 — FRESH START</div>
+  <h2>Welcome to your first real budget, <span id="hero-name">friend</span>.</h2>
+  <p>You're about to become a <span id="hero-career">professional</span> in <span id="hero-city">your chosen city</span>. Before you spend a single dollar, let's figure out what you actually take home each month — and where it all goes.</p>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- ══ SECTION 1: INCOME ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">1</div>
+      <h2 class="sec-title">Find your starting salary</h2>
+    </div>
+
+    <div class="card">
+      <div class="box-blue">
+        <span class="box-label">What does "median salary" mean?</span>
+        The <strong>median</strong> salary is the middle value — half of people in that job earn more, and half earn less. It's a realistic starting point. Look up the median for your specific career <em>in the city you want to live in</em>, not just a national average. Salaries in rural Colorado are typically lower than coastal cities.
+      </div>
+
+      <p style="font-size:14px;color:var(--muted);margin-bottom:10px;">Research your career's median salary using these sources:</p>
+      <div class="res-links">
+        <a class="res-link" href="https://www.bls.gov/ooh/"                  target="_blank">↗ BLS Occupational Outlook</a>
+        <a class="res-link" href="https://www.glassdoor.com/Salaries/"       target="_blank">↗ Glassdoor Salaries</a>
+        <a class="res-link" href="https://www.indeed.com/salaries"           target="_blank">↗ Indeed Salaries</a>
+        <a class="res-link" href="https://www.linkedin.com/salary/"          target="_blank">↗ LinkedIn Salary</a>
+      </div>
+
+      <div class="salary-wrap">
+        <div class="salary-input-group">
+          <label for="gross-salary">Annual gross salary (before taxes)</label>
+          <div class="dollar-field">
+            <span class="sym">$</span>
+            <input type="number" id="gross-salary" placeholder="48,000" min="0" max="500000" oninput="recalc()">
+          </div>
+        </div>
+        <div class="gross-display">
+          <div class="gdl">Monthly gross</div>
+          <div class="gv" id="monthly-gross">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 2: TAXES ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">2</div>
+      <h2 class="sec-title">Understanding your taxes</h2>
+    </div>
+
+    <div class="card">
+      <div class="box-yellow">
+        <span class="box-label">Gross pay ≠ take-home pay</span>
+        Every paycheck has money automatically withheld for taxes before you ever see it. In the U.S. you pay <strong>federal income tax</strong> (based on progressive brackets — higher earners pay a higher rate), <strong>Colorado state income tax</strong> (a simple flat 4.4%), and <strong>FICA</strong>, which funds Social Security and Medicare. The numbers below update automatically as you enter your salary above.
+      </div>
+
+      <table class="tax-tbl">
+        <tbody>
+          <tr>
+            <td>Gross monthly salary</td>
+            <td id="t-gross">—</td>
+          </tr>
+          <tr>
+            <td>
+              Federal income tax
+              <div class="sub">Progressive brackets, after $14,600 standard deduction</div>
+            </td>
+            <td id="t-fed" class="neg">—</td>
+          </tr>
+          <tr>
+            <td>
+              Colorado state tax
+              <div class="sub">Flat 4.4% on taxable income</div>
+            </td>
+            <td id="t-co" class="neg">—</td>
+          </tr>
+          <tr>
+            <td>
+              FICA (Social Security + Medicare)
+              <div class="sub">6.2% Social Security + 1.45% Medicare = 7.65% of gross</div>
+            </td>
+            <td id="t-fica" class="neg">—</td>
+          </tr>
+          <tr class="tot">
+            <td>Your monthly take-home pay</td>
+            <td id="t-net">—</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;">Estimates only. Actual withholding depends on your W-4, employer-sponsored benefits, and filing status.</p>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 3: BUDGET ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">3</div>
+      <h2 class="sec-title">Build your monthly budget</h2>
+    </div>
+
+    <div class="box-blue" style="margin-bottom:1rem;">
+      <span class="box-label">The 50 / 30 / 20 guideline</span>
+      A popular starting framework: spend roughly <strong>50%</strong> of take-home pay on needs (rent, food, utilities), <strong>30%</strong> on wants (dining out, hobbies, subscriptions), and save at least <strong>20%</strong>. This isn't a law — use it as a compass, not a cage. The ranges shown are realistic for southwestern Colorado.
+    </div>
+
+    <!-- LIVE SUMMARY -->
+    <div class="sum-bar" style="margin-bottom:0.75rem;">
+      <div class="sum-item si"><div class="slabel">Monthly income</div><div class="sval" id="sum-in">—</div></div>
+      <div class="sum-item se"><div class="slabel">Total expenses</div><div class="sval" id="sum-ex">$0</div></div>
+      <div class="sum-item ss"><div class="slabel">Left to save</div><div class="sval"   id="sum-sv">—</div></div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div style="margin-bottom:1.25rem;">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px;">
+        <span>Expenses as % of take-home</span>
+        <span id="pct-lbl">—</span>
+      </div>
+      <div class="prog-wrap"><div class="prog-fill pf-ok" id="prog-bar"></div></div>
+    </div>
+
+    <div class="card">
+      <table class="bud-tbl">
+        <thead>
+          <tr>
+            <th style="width:42%">Category</th>
+            <th style="width:28%">SW Colorado range</th>
+            <th style="width:30%">Your amount</th>
+          </tr>
+        </thead>
+        <tbody id="budget-body">
+
+          <tr class="sec-hdr"><td colspan="3">Housing</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Rent</div><div class="cat-hint">1-bedroom apartment</div></td>
+            <td><span class="range-hint">$850 – $1,400</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Utilities</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Electricity</div></td>
+            <td><span class="range-hint">$50 – $110</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Heat / gas</div></td>
+            <td><span class="range-hint">$40 – $120</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Water</div></td>
+            <td><span class="range-hint">$25 – $60</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Internet</div></td>
+            <td><span class="range-hint">$50 – $90</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Transportation</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Car payment</div><div class="cat-hint">Enter $0 if paid off</div></td>
+            <td><span class="range-hint">$0 – $450</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Gas / fuel</div></td>
+            <td><span class="range-hint">$80 – $200</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Car insurance</div></td>
+            <td><span class="range-hint">$80 – $180</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Food</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Groceries</div></td>
+            <td><span class="range-hint">$250 – $450</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Dining out</div></td>
+            <td><span class="range-hint">$50 – $200</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Insurance</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Health insurance</div><div class="cat-hint">Your share after any employer contribution</div></td>
+            <td><span class="range-hint">$0 – $350</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Renters insurance</div><div class="cat-hint">Covers your belongings if something goes wrong</div></td>
+            <td><span class="range-hint">$12 – $25</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Personal</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Phone bill</div></td>
+            <td><span class="range-hint">$40 – $100</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Personal care</div><div class="cat-hint">Haircuts, toiletries, etc.</div></td>
+            <td><span class="range-hint">$30 – $80</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Clothing</div></td>
+            <td><span class="range-hint">$30 – $100</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Entertainment &amp; subscriptions</div><div class="cat-hint">Streaming, hobbies, concerts, apps</div></td>
+            <td><span class="range-hint">$50 – $175</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Financial safety net</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Emergency fund</div><div class="cat-hint">Goal: 3–6 months of total expenses set aside</div></td>
+            <td><span class="range-hint">$50 – $300+</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Student loan payment</div><div class="cat-hint">Enter $0 if none</div></td>
+            <td><span class="range-hint">$0 – $500</span></td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 4: SAVINGS SNAPSHOT ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">4</div>
+      <h2 class="sec-title">Your savings snapshot</h2>
+    </div>
+
+    <div class="sum-bar" style="margin-bottom:1rem;">
+      <div class="sum-item si"><div class="slabel">Monthly take-home</div><div class="sval" id="snap-in">—</div></div>
+      <div class="sum-item se"><div class="slabel">Total spending</div>  <div class="sval" id="snap-ex">—</div></div>
+      <div class="sum-item ss"><div class="slabel">Monthly savings</div>  <div class="sval" id="snap-sv">—</div></div>
+    </div>
+
+    <div id="savings-callout" style="display:none;border-radius:12px;padding:1.25rem;margin-bottom:1rem;">
+      <h4 id="sc-head" style="font-family:'Fraunces',serif;font-size:16px;margin-bottom:6px;"></h4>
+      <p  id="sc-body" style="font-size:14px;"></p>
+    </div>
+
+    <div class="box-yellow">
+      <span class="box-label">Why an emergency fund matters</span>
+      Financial experts recommend keeping 3–6 months of living expenses in a savings account you don't touch unless something unexpected happens — a car breakdown, medical bill, or job loss. Based on your budget, your target emergency fund is between <strong id="ef-low">$—</strong> and <strong id="ef-high">$—</strong>.
+    </div>
+  </section>
+
+  <!-- ══ SECTION 5: CODAP ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">5</div>
+      <h2 class="sec-title">Your CODAP assignment</h2>
+    </div>
+
+    <div class="codap-box">
+      <h3>Stage 1 CODAP Task</h3>
+      <p>Open the Stage 1 template below. Using the numbers from this page, enter your monthly income and fill in each budget category. CODAP calculates your totals automatically. Save your file — you'll build on it in Stage 2.</p>
+      <a class="codap-btn" href="https://codap.concord.org/app/static/dg/en/cert/index.html" target="_blank">Open Stage 1 CODAP Template ↗</a>
+    </div>
+
+    <div class="card" style="margin-top:0.75rem;">
+      <p style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:10px;">What your CODAP file should include:</p>
+      <ul style="font-size:14px;color:var(--muted);line-height:2.1;padding-left:1.25rem;">
+        <li>Your career title and target city</li>
+        <li>Your gross annual salary and monthly take-home pay</li>
+        <li>Every budget category with your chosen monthly amount</li>
+        <li>Your total monthly expenses and monthly savings</li>
+        <li>A short written reflection: Are you satisfied with this budget? What surprised you? What would you change?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ NEXT STAGE BUTTON ══ -->
+  <button class="next-btn" onclick="goNext()">Continue to Stage 2: Buying a Home →</button>
+
+</main>
+
+<script>
+// ── READ URL PARAMS ─────────────────────────────────────────────────
+const p = new URLSearchParams(window.location.search);
+const pr = {
+  name:    p.get('name')    || 'friend',
+  career:  p.get('career')  || 'professional',
+  city:    p.get('city')    || 'your city',
+  skin:    p.get('skin')    || '#FEEBD3',
+  style:   p.get('style')   || 'short',
+  texture: p.get('texture') || 'straight',
+  hair:    p.get('hair')    || '#6B3F1E',
+  eye:     p.get('eye')     || '#6B3F1E',
+  shirt:   p.get('shirt')   || '#378ADD',
+  collar:  p.get('collar')  || '#2469AA'
+};
+
+// ── POPULATE PAGE TEXT ───────────────────────────────────────────────
+document.getElementById('hdr-name').textContent  = pr.name + "'s Budget";
+document.getElementById('hdr-sub').textContent   = pr.career + ' in ' + pr.city + ' — Stage 1 of 3';
+document.getElementById('hero-name').textContent  = pr.name;
+document.getElementById('hero-career').textContent = pr.career;
+document.getElementById('hero-city').textContent   = pr.city;
+
+// ── RECONSTRUCT AVATAR ───────────────────────────────────────────────
+const HAIR = {
+  bald:  { straight:{top:()=>'',sides:()=>''}, curly:{top:()=>'',sides:()=>''} },
+  short: {
+    straight:{top:c=>`<path d="M46 122 A57 57 0 0 1 154 122 Q152 66 128 59 Q114 55 100 55 Q86 55 72 59 Q48 66 46 122 Z" fill="${c}"/>`,sides:()=>''},
+    curly:  {top:c=>`<circle cx="66" cy="93" r="17" fill="${c}"/><circle cx="83" cy="77" r="18" fill="${c}"/><circle cx="100" cy="72" r="19" fill="${c}"/><circle cx="117" cy="77" r="18" fill="${c}"/><circle cx="134" cy="93" r="17" fill="${c}"/>`,sides:()=>''}
+  },
+  medium:{
+    straight:{top:c=>`<path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="${c}"/>`,sides:c=>`<rect x="35" y="104" width="19" height="76" rx="9" fill="${c}"/><rect x="146" y="104" width="19" height="76" rx="9" fill="${c}"/>`},
+    curly:  {top:c=>`<circle cx="60" cy="84" r="21" fill="${c}"/><circle cx="80" cy="63" r="23" fill="${c}"/><circle cx="100" cy="57" r="24" fill="${c}"/><circle cx="120" cy="63" r="23" fill="${c}"/><circle cx="140" cy="84" r="21" fill="${c}"/>`,sides:c=>`<circle cx="41" cy="112" r="17" fill="${c}"/><circle cx="41" cy="144" r="17" fill="${c}"/><circle cx="159" cy="112" r="17" fill="${c}"/><circle cx="159" cy="144" r="17" fill="${c}"/>`}
+  },
+  long:  {
+    straight:{top:c=>`<path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="${c}"/>`,sides:c=>`<rect x="34" y="102" width="21" height="158" rx="10" fill="${c}"/><rect x="145" y="102" width="21" height="158" rx="10" fill="${c}"/>`},
+    curly:  {top:c=>`<circle cx="58" cy="80" r="22" fill="${c}"/><circle cx="80" cy="58" r="24" fill="${c}"/><circle cx="103" cy="52" r="24" fill="${c}"/><circle cx="127" cy="60" r="22" fill="${c}"/><circle cx="147" cy="78" r="20" fill="${c}"/>`,sides:c=>`<circle cx="41" cy="110" r="17" fill="${c}"/><circle cx="41" cy="144" r="17" fill="${c}"/><circle cx="41" cy="176" r="16" fill="${c}"/><circle cx="159" cy="110" r="17" fill="${c}"/><circle cx="159" cy="144" r="17" fill="${c}"/><circle cx="159" cy="176" r="16" fill="${c}"/>`}
+  }
+};
+
+(function buildAvatar() {
+  const h = HAIR[pr.style]?.[pr.texture] || HAIR.short.straight;
+  document.getElementById('m-head').setAttribute('fill',  pr.skin);
+  document.getElementById('m-earl').setAttribute('fill',  pr.skin);
+  document.getElementById('m-earr').setAttribute('fill',  pr.skin);
+  document.getElementById('m-neck').setAttribute('fill',  pr.skin);
+  document.getElementById('m-shirt').setAttribute('fill', pr.shirt);
+  document.getElementById('m-collar').setAttribute('fill',pr.collar);
+  document.getElementById('m-htop').innerHTML   = h.top(pr.hair);
+  document.getElementById('m-hsides').innerHTML = h.sides(pr.hair);
+  document.getElementById('m-brl').setAttribute('stroke', pr.style==='bald' ? 'transparent' : pr.hair);
+  document.getElementById('m-brr').setAttribute('stroke', pr.style==='bald' ? 'transparent' : pr.hair);
+  document.getElementById('m-irl').setAttribute('fill', pr.eye);
+  document.getElementById('m-irr').setAttribute('fill', pr.eye);
+})();
+
+// ── TAX CALCULATION ──────────────────────────────────────────────────
+function calcFederal(gross) {
+  const taxable = Math.max(0, gross - 14600);
+  const brackets = [[11600,.10],[35550,.12],[53375,.22],[91425,.24],[51775,.32],[365625,.35],[Infinity,.37]];
+  let tax = 0, rem = taxable;
+  for (const [size, rate] of brackets) {
+    const chunk = Math.min(rem, size);
+    tax += chunk * rate;
+    rem -= chunk;
+    if (rem <= 0) break;
+  }
+  return tax;
+}
+
+let netMonthly = 0;
+const fmt    = v => v > 0 ? '$' + Math.round(v).toLocaleString() : '—';
+const fmtNeg = v => v > 0 ? '−$' + Math.round(v).toLocaleString() : '—';
+
+function recalc() {
+  const gross = parseFloat(document.getElementById('gross-salary').value) || 0;
+  const gm    = gross / 12;
+
+  const fed  = calcFederal(gross);
+  const co   = Math.max(0, gross - 14600) * 0.044;
+  const fica = gross * 0.0765;
+  netMonthly = (gross - fed - co - fica) / 12;
+
+  document.getElementById('monthly-gross').textContent = gross > 0 ? '$' + Math.round(gm).toLocaleString() : '—';
+  document.getElementById('t-gross').textContent = fmt(gm);
+  document.getElementById('t-fed').textContent   = fmtNeg(fed / 12);
+  document.getElementById('t-co').textContent    = fmtNeg(co  / 12);
+  document.getElementById('t-fica').textContent  = fmtNeg(fica/ 12);
+  document.getElementById('t-net').textContent   = netMonthly > 0 ? '$' + Math.round(netMonthly).toLocaleString() : '—';
+
+  // Tally budget inputs
+  let expenses = 0;
+  document.querySelectorAll('.bud-input').forEach(i => { expenses += parseFloat(i.value) || 0; });
+  const savings = netMonthly - expenses;
+
+  const inStr = netMonthly > 0 ? '$' + Math.round(netMonthly).toLocaleString() : '—';
+  const exStr = '$' + Math.round(expenses).toLocaleString();
+  const svStr = netMonthly > 0 ? '$' + Math.round(savings).toLocaleString() : '—';
+
+  ['sum-in','snap-in'].forEach(id => document.getElementById(id).textContent = inStr);
+  ['sum-ex','snap-ex'].forEach(id => document.getElementById(id).textContent = exStr);
+  ['sum-sv','snap-sv'].forEach(id => document.getElementById(id).textContent = svStr);
+
+  // Progress bar
+  const pct = netMonthly > 0 ? Math.min(Math.round((expenses / netMonthly) * 100), 120) : 0;
+  const bar = document.getElementById('prog-bar');
+  bar.style.width = Math.min(pct, 100) + '%';
+  bar.className = 'prog-fill ' + (pct > 100 ? 'pf-over' : pct > 80 ? 'pf-warn' : 'pf-ok');
+  document.getElementById('pct-lbl').textContent = netMonthly > 0 ? pct + '%' : '—';
+
+  // Savings callout
+  const el = document.getElementById('savings-callout');
+  const hd = document.getElementById('sc-head');
+  const bd = document.getElementById('sc-body');
+  if (netMonthly > 0) {
+    el.style.display = 'block';
+    if (savings < 0) {
+      el.style.background='#FCEBEB'; el.style.border='1px solid #F09595';
+      hd.style.color='#7A1F1F'; bd.style.color='#7A1F1F';
+      hd.textContent = 'Over budget by $' + Math.abs(Math.round(savings)).toLocaleString() + '/month';
+      bd.textContent = "Your planned expenses exceed your take-home pay. Start by trimming variable costs — dining out, entertainment, and subscriptions are usually the easiest places to cut. Consider cheaper housing or a roommate if needed.";
+    } else if (savings < netMonthly * 0.1) {
+      el.style.background='#FFF8EE'; el.style.border='1px solid #FAC775';
+      hd.style.color='#633806'; bd.style.color='#854F0B';
+      hd.textContent = 'Saving $' + Math.round(savings).toLocaleString() + '/month — a tight margin';
+      bd.textContent = "This budget will work, but there isn't much cushion. One unexpected expense — a car repair, a medical bill — could put you in the red. Building your emergency fund as fast as possible should be your first priority.";
+    } else {
+      el.style.background='#EAF5EF'; el.style.border='1px solid #9FE1CB';
+      hd.style.color='#0F6E56'; bd.style.color='#0F6E56';
+      hd.textContent = 'Solid! You\'re saving $' + Math.round(savings).toLocaleString() + '/month';
+      bd.textContent = 'That\'s ' + (100 - Math.min(pct, 100)) + '% of your income going toward savings. Nice work. This cushion will help you build an emergency fund and start working toward bigger goals like a down payment.';
+    }
+  } else {
+    el.style.display = 'none';
+  }
+
+  // Emergency fund range
+  document.getElementById('ef-low').textContent  = '$' + Math.round(expenses * 3).toLocaleString();
+  document.getElementById('ef-high').textContent = '$' + Math.round(expenses * 6).toLocaleString();
+}
+
+// ── NAVIGATE TO STAGE 2 ──────────────────────────────────────────────
+function goNext() {
+  let expenses = 0;
+  document.querySelectorAll('.bud-input').forEach(i => { expenses += parseFloat(i.value) || 0; });
+  const nextP = new URLSearchParams({
+    ...Object.fromEntries(p.entries()),
+    net:      Math.round(netMonthly),
+    expenses: Math.round(expenses),
+    savings:  Math.round(netMonthly - expenses)
+  });
+  window.location.href = 'stage2.html?' + nextP.toString();
+}
+</script>
+
+</body>
+</html>
