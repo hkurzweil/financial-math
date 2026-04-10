@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage 3: The Long Game — Life Budget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F2F4F7; --card: #FFFFFF; --text: #1E2330; --muted: #5E6677;
+      --border: #D0D5E0; --accent: #5B4FBE; --amber: #C17F3A; --green: #2D7D52;
+      --blue: #3A6EA8; --red: #B84040; --teal: #2A7A72;
+    }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+
+    /* ── HEADER ── */
+    .site-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0.6rem 1.25rem; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+    .header-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; flex: 1; }
+    .header-sub  { font-size: 12px; color: var(--muted); }
+    .stage-track { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
+    .st-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+    .st-dot.done { background: var(--amber); }
+    .st-dot.on   { background: var(--accent); width: 28px; border-radius: 5px; }
+
+    /* ── HERO ── */
+    .hero { background: var(--accent); color: white; padding: 2rem 1.5rem 1.75rem; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); border-radius: 20px; padding: 3px 12px; font-size: 11px; font-weight: 500; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .hero h2 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; line-height: 1.25; margin-bottom: 0.4rem; }
+    .hero p { font-size: 14px; opacity: 0.88; max-width: 520px; }
+
+    /* ── LAYOUT ── */
+    .main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    .section { margin-bottom: 2.75rem; }
+    .sec-label { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .sec-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: white; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sec-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+
+    /* ── CARDS ── */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; }
+    .card + .card { margin-top: 0.75rem; }
+
+    /* ── BOXES ── */
+    .box-blue   { background: #EEF4FA; border: 1px solid #B5D4F4; border-radius: 10px; padding: 1rem 1.25rem; color: #185FA5; font-size: 14px; margin-bottom: 1rem; line-height: 1.65; }
+    .box-yellow { background: #FFF8EE; border: 1px solid #FAC775; border-radius: 10px; padding: 1rem 1.25rem; color: #633806; font-size: 14px; line-height: 1.65; }
+    .box-green  { background: #EAF5EF; border: 1px solid #9FE1CB; border-radius: 12px; padding: 1.25rem; color: #0F6E56; font-size: 14px; line-height: 1.65; }
+    .box-purple { background: #F0EEFE; border: 1px solid #AFA9EC; border-radius: 10px; padding: 1rem 1.25rem; color: #3C3489; font-size: 14px; line-height: 1.65; margin-bottom: 1rem; }
+    .box-teal   { background: #E5F4F3; border: 1px solid #5DCAA5; border-radius: 10px; padding: 1rem 1.25rem; color: #085041; font-size: 14px; line-height: 1.65; margin-bottom: 1rem; }
+    .box-label  { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 6px; display: block; }
+
+    /* ── SALARY RAISE BANNER ── */
+    .raise-banner { background: var(--accent); color: white; border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .raise-icon { font-size: 32px; flex-shrink: 0; }
+    .raise-text h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; margin-bottom: 3px; }
+    .raise-text p  { font-size: 13px; opacity: 0.88; }
+    .raise-vals { display: flex; gap: 1.5rem; margin-left: auto; flex-shrink: 0; text-align: center; }
+    .raise-val .rv-lbl { font-size: 11px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.05em; }
+    .raise-val .rv-num { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; }
+
+    /* ── BUDGET TABLE ── */
+    .bud-tbl { width: 100%; border-collapse: collapse; }
+    .bud-tbl th { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; padding: 0 6px 10px; text-align: left; }
+    .bud-tbl th:last-child { text-align: right; }
+    .bud-tbl .bcat-row td { padding: 9px 6px; border-top: 1px solid var(--border); vertical-align: middle; }
+    .bud-tbl .sec-hdr td { background: var(--bg); font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 6px 6px; border-top: none !important; }
+    .cat-name { font-size: 14px; font-weight: 500; }
+    .cat-hint { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .cat-new  { display: inline-block; font-size: 10px; font-weight: 600; background: #F0EEFE; color: var(--accent); border-radius: 4px; padding: 1px 6px; margin-left: 5px; vertical-align: middle; }
+    .cat-gone { font-size: 12px; color: var(--muted); text-decoration: line-through; }
+    .bud-input { width: 110px; text-align: right; border: 1px solid var(--border); border-radius: 7px; padding: 6px 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); outline: none; display: block; margin-left: auto; }
+    .bud-input:focus { border-color: var(--accent); background: var(--card); }
+    .bud-readonly { width: 110px; text-align: right; display: block; margin-left: auto; font-size: 14px; font-weight: 500; color: var(--accent); padding: 6px 8px; }
+
+    /* ── SUMMARY BAR ── */
+    .sum-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; text-align: center; }
+    .sum-item .slabel { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .sum-item .sval { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; }
+    .si { color: var(--blue); } .se { color: var(--red); } .ss { color: var(--green); }
+
+    /* ── PROG BAR ── */
+    .prog-wrap { background: var(--border); border-radius: 8px; height: 9px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 8px; width: 0%; transition: width 0.3s; }
+    .pf-ok { background: var(--green); } .pf-warn { background: var(--amber); } .pf-over { background: var(--red); }
+
+    /* ── RETIREMENT INPUTS ── */
+    .ret-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+    .field-wrap label { display: block; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 5px; }
+    .field-wrap .field-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .dollar-field { display: flex; align-items: stretch; border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--card); }
+    .dollar-field:focus-within { border-color: var(--accent); }
+    .dollar-field .sym { padding: 0 10px; background: var(--bg); border-right: 1px solid var(--border); display: flex; align-items: center; font-size: 15px; color: var(--muted); }
+    .dollar-field .pct { padding: 0 10px; background: var(--bg); border-left:  1px solid var(--border); display: flex; align-items: center; font-size: 15px; color: var(--muted); }
+    .dollar-field input { flex: 1; border: none; outline: none; padding: 0 12px; font-size: 15px; font-family: 'DM Sans', sans-serif; color: var(--text); height: 46px; background: transparent; min-width: 0; }
+
+    /* ── RETIREMENT RESULT ── */
+    .ret-result { border-radius: 16px; padding: 1.75rem; margin: 1.25rem 0; }
+    .ret-result.good { background: #E5F4F3; border: 1px solid #5DCAA5; }
+    .ret-result.warn { background: #FFF8EE; border: 1px solid #FAC775; }
+    .ret-result.bad  { background: #FCEBEB; border: 1px solid #F09595; }
+    .ret-result h3   { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; margin-bottom: 0.5rem; }
+    .ret-result p    { font-size: 14px; line-height: 1.7; }
+
+    /* ── COMPARISON TABLE ── */
+    .compare-tbl { width: 100%; border-collapse: collapse; }
+    .compare-tbl th { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; padding: 0 1rem 10px; text-align: left; }
+    .compare-tbl th:not(:first-child) { text-align: right; }
+    .compare-tbl td { padding: 12px 1rem; font-size: 14px; border-top: 1px solid var(--border); }
+    .compare-tbl td:not(:first-child) { text-align: right; font-weight: 500; }
+    .compare-tbl .c-winner { color: var(--green); }
+    .compare-tbl .c-loser  { color: var(--red); }
+    .compare-tbl .total-row td { font-weight: 600; font-size: 15px; border-top: 2px solid var(--border); }
+
+    /* ── GROWTH CHART ── */
+    .chart-wrap { position: relative; height: 180px; margin: 1rem 0 0.5rem; }
+    .chart-wrap canvas { width: 100% !important; height: 100% !important; }
+
+    /* ── STAT GRID ── */
+    .stat-grid { display: grid; gap: 0.75rem; }
+    .stat-grid.g2 { grid-template-columns: 1fr 1fr; }
+    .stat-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+    .stat-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; text-align: center; }
+    .stat-card .slbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .stat-card .sval { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+    .stat-card .ssub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .cv-purple { color: var(--accent); } .cv-green { color: var(--green); }
+    .cv-blue   { color: var(--blue);   } .cv-red   { color: var(--red);   }
+    .cv-teal   { color: var(--teal);   } .cv-amber { color: var(--amber); }
+
+    /* ── FINAL CARD ── */
+    .final-card { background: var(--accent); color: white; border-radius: 20px; padding: 2rem; text-align: center; }
+    .final-card h2 { font-family: 'Fraunces', serif; font-size: 26px; margin-bottom: 0.5rem; }
+    .final-card p  { font-size: 14px; opacity: 0.88; max-width: 480px; margin: 0 auto 1.5rem; }
+    .final-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }
+    .final-pill  { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 500; }
+    .final-pill span { font-family: 'Fraunces', serif; font-weight: 600; }
+
+    /* ── CODAP ── */
+    .codap-box { background: var(--green); border-radius: 16px; padding: 1.75rem; color: white; text-align: center; }
+    .codap-box h3 { font-family: 'Fraunces', serif; font-size: 20px; margin-bottom: 0.5rem; }
+    .codap-box p  { font-size: 14px; opacity: 0.9; margin-bottom: 1.25rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .codap-btn { display: inline-block; background: white; color: #1A5A38; padding: 10px 24px; border-radius: 24px; font-weight: 600; font-size: 14px; text-decoration: none; }
+
+    @media (max-width: 540px) {
+      .sum-bar { grid-template-columns: 1fr; }
+      .ret-grid { grid-template-columns: 1fr; }
+      .stat-grid.g4 { grid-template-columns: 1fr 1fr; }
+      .raise-vals { margin-left: 0; width: 100%; justify-content: flex-start; }
+      .hero h2 { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <svg id="av-mini" viewBox="0 0 200 310" width="38" height="59" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+    <rect id="m-shirt"  x="52"  y="186" width="96"  height="118" rx="22" fill="#378ADD"/>
+    <path id="m-collar" d="M90 186 L100 202 L110 186" fill="#2469AA"/>
+    <rect id="m-neck"   x="87"  y="162" width="26"  height="28"  fill="#FEEBD3"/>
+    <g id="m-hsides"></g>
+    <circle id="m-earl" cx="43"  cy="114" r="10" fill="#FEEBD3"/>
+    <circle id="m-earr" cx="157" cy="114" r="10" fill="#FEEBD3"/>
+    <circle id="m-head" cx="100" cy="112" r="57" fill="#FEEBD3"/>
+    <g id="m-htop"><path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="#6B3F1E"/></g>
+    <path id="m-brl" d="M73 95 Q83 89 92 94"   stroke="#6B3F1E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path id="m-brr" d="M108 94 Q117 89 127 95" stroke="#6B3F1E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="82"  cy="108" rx="10" ry="10" fill="white"/>
+    <ellipse cx="118" cy="108" rx="10" ry="10" fill="white"/>
+    <circle id="m-irl" cx="82"  cy="108" r="6" fill="#6B3F1E"/>
+    <circle id="m-irr" cx="118" cy="108" r="6" fill="#6B3F1E"/>
+    <circle cx="83"  cy="107" r="2.5" fill="#111"/>
+    <circle cx="119" cy="107" r="2.5" fill="#111"/>
+    <circle cx="85"  cy="105" r="1.5" fill="white"/>
+    <circle cx="121" cy="105" r="1.5" fill="white"/>
+    <path d="M97 120 Q100 126 103 120" stroke="#C4855A" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M86 135 Q100 146 114 135" stroke="#B06060" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </svg>
+  <div style="flex:1;">
+    <div class="header-name" id="hdr-name">Life Budget</div>
+    <div class="header-sub"  id="hdr-sub">Stage 3 of 3</div>
+  </div>
+  <div class="stage-track">
+    <div class="st-dot done"></div>
+    <div class="st-dot done"></div>
+    <div class="st-dot on"></div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge">STAGE 3 — THE LONG GAME</div>
+  <h2>You're settled in, <span id="hero-name">friend</span>. Now let's make sure you don't run out of money at 75.</h2>
+  <p>You've been working as a <span id="hero-career">professional</span> for several years, you own a home in <span id="hero-city">your city</span>, and life has gotten fuller. It's time to update your budget — and figure out if your future self will be okay.</p>
+</div>
+
+<main class="main">
+
+  <!-- ══ SECTION 1: THE RAISE ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">1</div>
+      <h2 class="sec-title">You've earned a raise</h2>
+    </div>
+
+    <div class="raise-banner">
+      <div class="raise-icon">📈</div>
+      <div class="raise-text">
+        <h3>You're now earning 10% more than when you started</h3>
+        <p>A few years of experience in your field means a higher salary. This is your updated income for Stage 3.</p>
+      </div>
+      <div class="raise-vals">
+        <div class="raise-val">
+          <div class="rv-lbl">Stage 1 take-home</div>
+          <div class="rv-num" id="raise-old">—</div>
+        </div>
+        <div class="raise-val">
+          <div class="rv-lbl">Stage 3 take-home</div>
+          <div class="rv-num" id="raise-new">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-blue">
+      <span class="box-label">Why a 10% raise and not more?</span>
+      In most professions, workers see meaningful salary growth in their first several years as they gain skills, experience, and responsibilities. A 10% increase over a few years is realistic and conservative — some fields see more, some less. As your income grows, the temptation is to immediately increase your spending to match. This is called <strong>lifestyle creep</strong> — and it's one of the most common reasons people with good incomes still feel financially stuck. Notice how much more you have to work with in Stage 3, and think carefully about how to use it.
+    </div>
+  </section>
+
+  <!-- ══ SECTION 2: UPDATED BUDGET ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">2</div>
+      <h2 class="sec-title">Your settled-life budget</h2>
+    </div>
+
+    <div class="box-purple">
+      <span class="box-label">What's different in this budget vs. Stage 1?</span>
+      Your life has changed significantly. You now own a home instead of renting, so <strong>rent is replaced by your mortgage payment</strong> (from Stage 2). Homeowners insurance replaces renters insurance. You may have more household expenses. Many people in this stage also have children, which brings childcare costs — or children in school, which may reduce them. Update every line to reflect where you actually are in life now. Some costs go up, some go down.
+    </div>
+
+    <div class="sum-bar" style="margin-bottom:0.75rem;">
+      <div class="sum-item si"><div class="slabel">Monthly income</div><div class="sval" id="sum-in">—</div></div>
+      <div class="sum-item se"><div class="slabel">Total expenses</div><div class="sval" id="sum-ex">$0</div></div>
+      <div class="sum-item ss"><div class="slabel">Left to save</div>  <div class="sval" id="sum-sv">—</div></div>
+    </div>
+
+    <div style="margin-bottom:1.25rem;">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px;">
+        <span>Expenses as % of take-home</span><span id="pct-lbl">—</span>
+      </div>
+      <div class="prog-wrap"><div class="prog-fill pf-ok" id="prog-bar"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;">
+        <span style="color:var(--green);">Under 80% — healthy</span>
+        <span style="color:var(--amber);">80–100% — tight</span>
+        <span style="color:var(--red);">Over 100% — over budget</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <table class="bud-tbl">
+        <thead>
+          <tr>
+            <th style="width:44%">Category</th>
+            <th style="width:26%">Note</th>
+            <th style="width:30%">Your amount / mo</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr class="sec-hdr"><td colspan="3">Housing</td></tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Mortgage payment <span class="cat-new">NEW</span></div>
+              <div class="cat-hint">Replaces rent — from your Stage 2 calculations</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">Auto-filled from Stage 2</td>
+            <td><div class="bud-readonly" id="mortgage-display">—</div></td>
+          </tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Property taxes</div>
+              <div class="cat-hint">Paid monthly as part of escrow</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">From Stage 2</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" id="prop-tax-input" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Homeowners insurance <span class="cat-new">NEW</span></div>
+              <div class="cat-hint">Replaces renters insurance — required by lender</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">Typically $100–200/mo</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">HOA fees</div>
+              <div class="cat-hint">Enter $0 if no HOA</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">$0 if no HOA</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Home maintenance fund</div>
+              <div class="cat-hint">Rule of thumb: 1% of home value per year</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);" id="maint-hint">~1% of home value / 12</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Utilities</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Electricity</div></td>
+            <td style="font-size:12px;color:var(--muted);">Higher for a home vs. apt</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Heat / natural gas</div></td>
+            <td style="font-size:12px;color:var(--muted);">May be higher for a house</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Water &amp; trash</div></td>
+            <td style="font-size:12px;color:var(--muted);">Your responsibility as owner</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Internet</div></td>
+            <td style="font-size:12px;color:var(--muted);">Similar to Stage 1</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Transportation</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Car payment(s)</div><div class="cat-hint">Yours + partner if applicable</div></td>
+            <td style="font-size:12px;color:var(--muted);">May have 2 cars now</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Gas / fuel</div></td>
+            <td style="font-size:12px;color:var(--muted);">Could be higher w/ 2 cars</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Car insurance</div></td>
+            <td style="font-size:12px;color:var(--muted);">May cover multiple vehicles</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Food</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Groceries</div><div class="cat-hint">Adjust if family size has grown</div></td>
+            <td style="font-size:12px;color:var(--muted);">$500–$1,200 depending on family</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Dining out</div></td>
+            <td style="font-size:12px;color:var(--muted);">Often decreases w/ kids</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Insurance</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Health insurance</div><div class="cat-hint">May now cover a family plan</div></td>
+            <td style="font-size:12px;color:var(--muted);">Family plan: $200–600/mo</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Life insurance <span class="cat-new">NEW</span></div>
+              <div class="cat-hint">Important once you have dependents</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">Term policy: $20–60/mo</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Personal &amp; lifestyle</td></tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Phone bill(s)</div></td>
+            <td style="font-size:12px;color:var(--muted);">May be a family plan</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Personal care</div></td>
+            <td style="font-size:12px;color:var(--muted);">Similar or slightly higher</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Clothing</div><div class="cat-hint">May include children's clothing</div></td>
+            <td style="font-size:12px;color:var(--muted);">$75–200 if family</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td><div class="cat-name">Entertainment &amp; subscriptions</div></td>
+            <td style="font-size:12px;color:var(--muted);">Similar to Stage 1</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Family &amp; children</td></tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Childcare / after-school <span class="cat-new">UPDATED</span></div>
+              <div class="cat-hint">May decrease as kids enter school</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">$0 – $1,800 depending on age</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Kids' activities &amp; expenses <span class="cat-new">NEW</span></div>
+              <div class="cat-hint">Sports, music, school fees, supplies</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">$0 – $400+/mo</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+
+          <tr class="sec-hdr"><td colspan="3">Financial safety net</td></tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Emergency fund (top-up)</div>
+              <div class="cat-hint">Your target grows since expenses are larger now</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">$100–400/mo until full</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Student loan payment</div>
+              <div class="cat-hint">Still paying? Enter $0 if finished</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">Enter $0 if paid off</td>
+            <td><input class="bud-input" type="number" min="0" placeholder="0" oninput="recalc()"></td>
+          </tr>
+          <tr class="bcat-row">
+            <td>
+              <div class="cat-name">Retirement contributions <span class="cat-new">NEW</span></div>
+              <div class="cat-hint">Auto-filled from Section 3 below</div>
+            </td>
+            <td style="font-size:12px;color:var(--muted);">Calculated in Section 3</td>
+            <td><div class="bud-readonly" id="ret-contrib-display">$0</div></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div id="budget-callout" style="display:none;border-radius:12px;padding:1.25rem;margin-top:1rem;">
+      <h4 id="bc-head" style="font-family:'Fraunces',serif;font-size:16px;margin-bottom:8px;"></h4>
+      <p  id="bc-body" style="font-size:14px;line-height:1.7;"></p>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 3: RETIREMENT ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">3</div>
+      <h2 class="sec-title">Planning for retirement</h2>
+    </div>
+
+    <div class="box-blue">
+      <span class="box-label">What is retirement, and why do you need to plan for it now?</span>
+      Retirement is when you stop working — by choice or necessity — and need to live off savings you've accumulated over your working years. Social Security will provide some income, but most financial experts agree it will not be enough to maintain your lifestyle on its own. The earlier you start saving, the less you actually need to set aside each month — because of <strong>compound interest</strong>: your money earns returns, and then those returns earn returns. Time is the most powerful financial tool you have.<br><br>
+      A <strong>401(k)</strong> or <strong>403(b)</strong> is a retirement savings account offered through most employers. Contributions come out of your paycheck before taxes, which lowers your taxable income now. Many employers also "match" a portion of what you contribute — that is free money. An <strong>IRA (Individual Retirement Account)</strong> is a retirement account you open yourself if your employer doesn't offer one. Both grow tax-advantaged — meaning you pay no taxes on the growth until you withdraw in retirement.
+    </div>
+
+    <div class="box-teal">
+      <span class="box-label">The magic of compound growth — a 7% average annual return</span>
+      When you invest in a diversified retirement account (like a target-date fund), the stock market has historically returned an average of about 7% per year after inflation over long periods of time. This means: every $100 you invest today becomes roughly $200 in 10 years, $400 in 20 years, and $800 in 30 years — without you adding a single extra dollar. This is why starting early matters so much. Saving $200/month starting at 25 produces dramatically more than saving $500/month starting at 40.
+    </div>
+
+    <div class="card">
+      <p style="font-size:14px;font-weight:600;margin-bottom:1rem;">Your retirement inputs</p>
+      <div class="ret-grid">
+        <div class="field-wrap">
+          <label for="current-age">Your current age</label>
+          <div class="dollar-field">
+            <input type="number" id="current-age" placeholder="28" min="18" max="65" oninput="recalc()">
+            <span class="pct">yrs</span>
+          </div>
+          <div class="field-sub">How old are you now (or when you'd start saving)?</div>
+        </div>
+        <div class="field-wrap">
+          <label for="retire-age">Age you hope to retire</label>
+          <div class="dollar-field">
+            <input type="number" id="retire-age" placeholder="65" min="40" max="80" oninput="recalc()">
+            <span class="pct">yrs</span>
+          </div>
+          <div class="field-sub">Most Americans retire between 62 and 67.</div>
+        </div>
+        <div class="field-wrap">
+          <label for="monthly-contrib">Monthly retirement contribution</label>
+          <div class="dollar-field">
+            <span class="sym">$</span>
+            <input type="number" id="monthly-contrib" placeholder="300" min="0" oninput="recalc()">
+          </div>
+          <div class="field-sub">How much can you set aside each month? Try different amounts to see the impact.</div>
+        </div>
+        <div class="field-wrap">
+          <label for="employer-match">Employer match (% of your contribution)</label>
+          <div class="dollar-field">
+            <input type="number" id="employer-match" placeholder="50" min="0" max="100" value="50" oninput="recalc()">
+            <span class="pct">%</span>
+          </div>
+          <div class="field-sub">Many employers match 50–100% of what you put in, up to a cap. Check with your HR department. Enter 0 if unknown.</div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:13px;color:var(--muted);">
+        <strong style="color:var(--text);">Assumed annual return: 7%</strong> — This is a widely-used long-term average for a diversified stock market portfolio. Some years will be much higher, some lower or even negative. Over 30+ years, the average has historically been around 7% after inflation. This calculator uses that assumption.
+      </div>
+
+      <!-- KEY STATS ROW -->
+      <div class="stat-grid g4" style="margin-bottom:1.25rem;">
+        <div class="stat-card">
+          <div class="slbl">Years saving</div>
+          <div class="sval cv-purple" id="stat-years">—</div>
+          <div class="ssub">until retirement</div>
+        </div>
+        <div class="stat-card">
+          <div class="slbl">You contribute</div>
+          <div class="sval cv-blue" id="stat-you">—</div>
+          <div class="ssub">total over time</div>
+        </div>
+        <div class="stat-card">
+          <div class="slbl">Employer adds</div>
+          <div class="sval cv-green" id="stat-match">—</div>
+          <div class="ssub">free money</div>
+        </div>
+        <div class="stat-card">
+          <div class="slbl">Growth earned</div>
+          <div class="sval cv-teal" id="stat-growth">—</div>
+          <div class="ssub">compound returns</div>
+        </div>
+      </div>
+
+      <!-- TOTAL AT RETIREMENT -->
+      <div style="background:var(--accent);color:white;border-radius:12px;padding:1.5rem;text-align:center;margin-bottom:1.25rem;">
+        <div style="font-size:12px;opacity:0.8;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Estimated retirement savings at age <span id="retire-age-display">—</span></div>
+        <div style="font-family:'Fraunces',serif;font-size:44px;font-weight:600;line-height:1.1;" id="total-at-retire">—</div>
+        <div style="font-size:13px;opacity:0.85;margin-top:8px;" id="retire-sub">Enter your age and monthly contribution above to see your projection.</div>
+      </div>
+
+      <!-- GROWTH CHART -->
+      <p style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:8px;">Your nest egg growth over time:</p>
+      <div class="chart-wrap">
+        <canvas id="growth-chart"></canvas>
+      </div>
+      <div id="chart-labels" style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;"></div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 4: WILL IT BE ENOUGH? ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">4</div>
+      <h2 class="sec-title">Will it be enough?</h2>
+    </div>
+
+    <div class="box-yellow" style="margin-bottom:1.25rem;">
+      <span class="box-label">How much money do you actually need in retirement?</span>
+      Financial planners commonly suggest that retirees need roughly <strong>65–80% of their pre-retirement monthly income</strong> to maintain their lifestyle. This is because some major expenses go away in retirement — your mortgage is often paid off, you're not commuting, childcare is long gone, and you're not contributing to retirement accounts anymore. We'll use <strong>65% of your current Stage 3 monthly expenses</strong> as a reasonable estimate of what you'll need per month in retirement.<br><br>
+      Then, using the <strong>"4% rule"</strong> — a widely used retirement planning guideline — we can estimate how large your total savings needs to be: if you can safely withdraw 4% of your savings per year without running out of money over a 25–30 year retirement, then your total savings target is roughly <strong>25× your annual retirement spending</strong>.
+    </div>
+
+    <div class="card">
+      <table class="compare-tbl">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Your Stage 3 monthly expenses</td>
+            <td id="cmp-expenses">—</td>
+            <td style="font-size:12px;color:var(--muted);">From your budget above</td>
+          </tr>
+          <tr>
+            <td>Estimated monthly retirement need (65%)</td>
+            <td id="cmp-monthly-need">—</td>
+            <td style="font-size:12px;color:var(--muted);">Lower — fewer expenses in retirement</td>
+          </tr>
+          <tr>
+            <td>Annual retirement spending needed</td>
+            <td id="cmp-annual-need">—</td>
+            <td style="font-size:12px;color:var(--muted);">Monthly × 12</td>
+          </tr>
+          <tr>
+            <td>Total savings target (25× annual need)</td>
+            <td id="cmp-target" style="font-weight:600;color:var(--accent);">—</td>
+            <td style="font-size:12px;color:var(--muted);">The "4% rule" retirement savings goal</td>
+          </tr>
+          <tr>
+            <td>Your projected savings at retirement</td>
+            <td id="cmp-projected">—</td>
+            <td style="font-size:12px;color:var(--muted);">From Section 3 above</td>
+          </tr>
+          <tr class="total-row">
+            <td>Gap or surplus</td>
+            <td id="cmp-gap">—</td>
+            <td id="cmp-gap-note" style="font-size:12px;">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="retirement-result" class="ret-result warn" style="margin-top:1rem;display:none;">
+      <h3 id="rr-head"></h3>
+      <p  id="rr-body"></p>
+    </div>
+
+    <div class="box-blue" style="margin-top:1rem;">
+      <span class="box-label">What about Social Security?</span>
+      Social Security will provide some additional income in retirement on top of your personal savings — most workers can expect somewhere between $1,200 and $2,500 per month depending on their career earnings and when they claim benefits. This calculator does not include Social Security because the future of the program is uncertain and benefit amounts vary widely. Think of it as a bonus on top of your personal savings, not the foundation.
+    </div>
+  </section>
+
+  <!-- ══ SECTION 5: YOUR FULL LIFE PLAN ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">5</div>
+      <h2 class="sec-title">Your complete life plan</h2>
+    </div>
+
+    <div class="final-card">
+      <h2>You've built your financial life, <span id="final-name">friend</span>.</h2>
+      <p>Here's the arc of your journey from graduation to retirement as a <span id="final-career">professional</span> in <span id="final-city">your city</span>.</p>
+      <div class="final-pills">
+        <div class="final-pill">Stage 1 savings: <span id="pill-s1">—</span>/mo</div>
+        <div class="final-pill">Home price: <span id="pill-home">—</span></div>
+        <div class="final-pill">Stage 3 savings: <span id="pill-s3">—</span>/mo</div>
+        <div class="final-pill">Retirement: <span id="pill-retire">—</span></div>
+      </div>
+      <p style="font-size:13px;opacity:0.75;margin-bottom:0;">These numbers are yours — real math, real choices, real consequences. The habits you build now shape every stage that follows.</p>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 6: CODAP ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">6</div>
+      <h2 class="sec-title">Your final CODAP assignment</h2>
+    </div>
+
+    <div class="codap-box">
+      <h3>Stage 3 — Final CODAP Task</h3>
+      <p>Open your CODAP file and add a Stage 3 sheet. This is your final submission — it should contain all three stages and tell the story of your complete financial life plan.</p>
+      <a class="codap-btn" href="https://codap.concord.org/app/static/dg/en/cert/index.html" target="_blank">Open Stage 3 CODAP Template ↗</a>
+    </div>
+
+    <div class="card" style="margin-top:0.75rem;">
+      <p style="font-size:14px;font-weight:500;margin-bottom:10px;">Your final CODAP file must include all three stages plus:</p>
+      <ul style="font-size:14px;color:var(--muted);line-height:2.2;padding-left:1.25rem;">
+        <li>Your updated Stage 3 monthly budget with every line item</li>
+        <li>Your monthly retirement contribution and employer match amount</li>
+        <li>Your projected retirement savings total</li>
+        <li>Your retirement savings target (25× annual need) and whether you hit it</li>
+        <li>The gap or surplus between your projected savings and your target</li>
+        <li>A final written reflection (5–7 sentences): What did this project teach you about money that surprised you most? What would you do differently in any stage? What is one financial habit you want to start now because of what you learned?</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ── READ PARAMS ──────────────────────────────────────────────────────
+const p  = new URLSearchParams(window.location.search);
+const pr = {
+  name:    p.get('name')    || 'friend',
+  career:  p.get('career')  || 'professional',
+  city:    p.get('city')    || 'your city',
+  skin:    p.get('skin')    || '#FEEBD3',
+  style:   p.get('style')   || 'short',
+  texture: p.get('texture') || 'straight',
+  hair:    p.get('hair')    || '#6B3F1E',
+  eye:     p.get('eye')     || '#6B3F1E',
+  shirt:   p.get('shirt')   || '#378ADD',
+  collar:  p.get('collar')  || '#2469AA'
+};
+const s1Net          = parseFloat(p.get('net'))             || 0;
+const s1Savings      = parseFloat(p.get('savings'))         || 0;
+const s1Expenses     = parseFloat(p.get('expenses'))        || 0;
+const s2Mortgage     = parseFloat(p.get('monthlyMortgage')) || 0;
+const s2HomePrice    = parseFloat(p.get('homePrice'))       || 0;
+const s2OwnTotal     = parseFloat(p.get('ownTotal'))        || 0;
+
+// ── PAGE TEXT ────────────────────────────────────────────────────────
+['hdr-name'].forEach(id => document.getElementById(id).textContent = pr.name + "'s Budget");
+document.getElementById('hdr-sub').textContent    = pr.career + ' in ' + pr.city + ' — Stage 3 of 3';
+document.getElementById('hero-name').textContent  = pr.name;
+document.getElementById('hero-career').textContent = pr.career;
+document.getElementById('hero-city').textContent   = pr.city;
+document.getElementById('final-name').textContent  = pr.name;
+document.getElementById('final-career').textContent = pr.career;
+document.getElementById('final-city').textContent   = pr.city;
+
+// ── AVATAR ───────────────────────────────────────────────────────────
+const HAIR = {
+  bald:  {straight:{top:()=>'',sides:()=>''}, curly:{top:()=>'',sides:()=>''}},
+  short: {
+    straight:{top:c=>`<path d="M46 122 A57 57 0 0 1 154 122 Q152 66 128 59 Q114 55 100 55 Q86 55 72 59 Q48 66 46 122 Z" fill="${c}"/>`,sides:()=>''},
+    curly:  {top:c=>`<circle cx="66" cy="93" r="17" fill="${c}"/><circle cx="83" cy="77" r="18" fill="${c}"/><circle cx="100" cy="72" r="19" fill="${c}"/><circle cx="117" cy="77" r="18" fill="${c}"/><circle cx="134" cy="93" r="17" fill="${c}"/>`,sides:()=>''}
+  },
+  medium:{
+    straight:{top:c=>`<path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="${c}"/>`,sides:c=>`<rect x="35" y="104" width="19" height="76" rx="9" fill="${c}"/><rect x="146" y="104" width="19" height="76" rx="9" fill="${c}"/>`},
+    curly:  {top:c=>`<circle cx="60" cy="84" r="21" fill="${c}"/><circle cx="80" cy="63" r="23" fill="${c}"/><circle cx="100" cy="57" r="24" fill="${c}"/><circle cx="120" cy="63" r="23" fill="${c}"/><circle cx="140" cy="84" r="21" fill="${c}"/>`,sides:c=>`<circle cx="41" cy="112" r="17" fill="${c}"/><circle cx="41" cy="144" r="17" fill="${c}"/><circle cx="159" cy="112" r="17" fill="${c}"/><circle cx="159" cy="144" r="17" fill="${c}"/>`}
+  },
+  long:  {
+    straight:{top:c=>`<path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="${c}"/>`,sides:c=>`<rect x="34" y="102" width="21" height="158" rx="10" fill="${c}"/><rect x="145" y="102" width="21" height="158" rx="10" fill="${c}"/>`},
+    curly:  {top:c=>`<circle cx="58" cy="80" r="22" fill="${c}"/><circle cx="80" cy="58" r="24" fill="${c}"/><circle cx="103" cy="52" r="24" fill="${c}"/><circle cx="127" cy="60" r="22" fill="${c}"/><circle cx="147" cy="78" r="20" fill="${c}"/>`,sides:c=>`<circle cx="41" cy="110" r="17" fill="${c}"/><circle cx="41" cy="144" r="17" fill="${c}"/><circle cx="41" cy="176" r="16" fill="${c}"/><circle cx="159" cy="110" r="17" fill="${c}"/><circle cx="159" cy="144" r="17" fill="${c}"/><circle cx="159" cy="176" r="16" fill="${c}"/>`}
+  }
+};
+(function buildAvatar(){
+  const h = HAIR[pr.style]?.[pr.texture] || HAIR.short.straight;
+  ['m-head','m-earl','m-earr','m-neck'].forEach(id => document.getElementById(id).setAttribute('fill', pr.skin));
+  document.getElementById('m-shirt').setAttribute('fill', pr.shirt);
+  document.getElementById('m-collar').setAttribute('fill', pr.collar);
+  document.getElementById('m-htop').innerHTML   = h.top(pr.hair);
+  document.getElementById('m-hsides').innerHTML = h.sides(pr.hair);
+  document.getElementById('m-brl').setAttribute('stroke', pr.style==='bald'?'transparent':pr.hair);
+  document.getElementById('m-brr').setAttribute('stroke', pr.style==='bald'?'transparent':pr.hair);
+  document.getElementById('m-irl').setAttribute('fill', pr.eye);
+  document.getElementById('m-irr').setAttribute('fill', pr.eye);
+})();
+
+// ── PREFILL STAGE DATA ───────────────────────────────────────────────
+// 10% raise on net income
+const s3Net = Math.round(s1Net * 1.10);
+document.getElementById('raise-old').textContent = s1Net > 0 ? '$' + s1Net.toLocaleString() + '/mo' : '—';
+document.getElementById('raise-new').textContent = s3Net > 0 ? '$' + s3Net.toLocaleString() + '/mo' : '—';
+
+// Mortgage read-only
+document.getElementById('mortgage-display').textContent = s2Mortgage > 0 ? '$' + Math.round(s2Mortgage).toLocaleString() : '—';
+
+// Maintenance hint
+if(s2HomePrice > 0){
+  document.getElementById('maint-hint').textContent = '~$' + Math.round(s2HomePrice * 0.01 / 12).toLocaleString() + '/mo (1% of home value)';
+}
+
+// Stage 1 savings pill
+document.getElementById('pill-s1').textContent = s1Savings > 0 ? '$' + Math.round(s1Savings).toLocaleString() : '—';
+// Home price pill
+document.getElementById('pill-home').textContent = s2HomePrice > 0 ? '$' + Math.round(s2HomePrice).toLocaleString() : '—';
+
+// ── HELPERS ──────────────────────────────────────────────────────────
+const fmt = v => '$' + Math.round(v).toLocaleString();
+let totalAtRetire = 0;
+let totalExpenses = 0;
+let monthlyContrib = 0;
+let growthChartInstance = null;
+
+// ── CHART ────────────────────────────────────────────────────────────
+function drawChart(dataPoints, labels) {
+  const ctx = document.getElementById('growth-chart').getContext('2d');
+  if(growthChartInstance) growthChartInstance.destroy();
+  growthChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: dataPoints,
+        borderColor: '#5B4FBE',
+        backgroundColor: 'rgba(91,79,190,0.08)',
+        borderWidth: 2,
+        pointRadius: 0,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: { label: ctx => ' $' + Math.round(ctx.raw).toLocaleString() }
+      }},
+      scales: {
+        x: { grid: { display: false }, ticks: { maxTicksLimit: 6, font: { size: 11 }, color: '#5E6677' } },
+        y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: {
+          maxTicksLimit: 5, font: { size: 11 }, color: '#5E6677',
+          callback: v => '$' + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'K' : v)
+        }}
+      }
+    }
+  });
+  // X-axis age labels
+  const labelEl = document.getElementById('chart-labels');
+  labelEl.innerHTML = '';
+  if(labels.length > 1){
+    labelEl.innerHTML = `<span>${labels[0]}</span><span>${labels[Math.floor(labels.length/2)]}</span><span>${labels[labels.length-1]}</span>`;
+  }
+}
+
+// ── MAIN RECALC ──────────────────────────────────────────────────────
+function recalc(){
+  // ── Budget ──
+  const mortgage = s2Mortgage || 0;
+  let expenses = mortgage;
+  document.querySelectorAll('.bud-input').forEach(i => { expenses += parseFloat(i.value) || 0; });
+
+  // Add retirement contrib to expenses display
+  monthlyContrib = parseFloat(document.getElementById('monthly-contrib').value) || 0;
+  const matchPct = parseFloat(document.getElementById('employer-match').value) || 0;
+  const matchAmt = monthlyContrib * (matchPct / 100);
+  expenses += monthlyContrib;
+  totalExpenses = expenses;
+
+  document.getElementById('ret-contrib-display').textContent = monthlyContrib > 0 ? fmt(monthlyContrib) : '$0';
+
+  const savings = s3Net - expenses;
+  const inStr   = s3Net  > 0 ? fmt(s3Net)  : '—';
+  const exStr   = fmt(expenses);
+  const svStr   = s3Net  > 0 ? fmt(savings) : '—';
+
+  ['sum-in'].forEach(id => document.getElementById(id).textContent = inStr);
+  ['sum-ex'].forEach(id => document.getElementById(id).textContent = exStr);
+  ['sum-sv'].forEach(id => document.getElementById(id).textContent = svStr);
+
+  const pct = s3Net > 0 ? Math.min(Math.round((expenses/s3Net)*100),120) : 0;
+  const bar = document.getElementById('prog-bar');
+  bar.style.width = Math.min(pct,100)+'%';
+  bar.className = 'prog-fill '+(pct>100?'pf-over':pct>80?'pf-warn':'pf-ok');
+  document.getElementById('pct-lbl').textContent = s3Net > 0 ? pct+'%' : '—';
+
+  // Budget callout
+  const el = document.getElementById('budget-callout');
+  const hd = document.getElementById('bc-head');
+  const bd = document.getElementById('bc-body');
+  if(s3Net > 0 && expenses > 0){
+    el.style.display = 'block';
+    if(savings < 0){
+      el.style.cssText='display:block;background:#FCEBEB;border:1px solid #F09595;border-radius:12px;padding:1.25rem;';
+      hd.style.color='#7A1F1F'; bd.style.color='#7A1F1F';
+      hd.textContent='Over budget by '+fmt(Math.abs(savings))+'/month';
+      bd.textContent="Even with a 10% raise, your settled-life expenses exceed your income. This is a serious problem — something in the budget needs to change. Look at your biggest line items: housing, transportation, and food are typically where the most savings can be found. You may also want to reconsider your home price from Stage 2.";
+    } else if(savings < s3Net*0.1){
+      el.style.cssText='display:block;background:#FFF8EE;border:1px solid #FAC775;border-radius:12px;padding:1.25rem;';
+      hd.style.color='#633806'; bd.style.color='#854F0B';
+      hd.textContent='Saving '+fmt(savings)+'/month — a tight margin';
+      bd.textContent="You're making it work, but there's very little room for error. Life in this stage has many more financial demands — a home repair, a medical expense, or a car breakdown could set you back significantly. Focus on keeping your emergency fund fully stocked and finding ways to gradually increase savings over time.";
+    } else {
+      el.style.cssText='display:block;background:#EAF5EF;border:1px solid #9FE1CB;border-radius:12px;padding:1.25rem;';
+      hd.style.color='#0F6E56'; bd.style.color='#0F6E56';
+      hd.textContent='Solid! Saving '+fmt(savings)+'/month ('+(100-Math.min(pct,100))+'% of income)';
+      bd.textContent="You've built a sustainable settled-life budget. Your raise has given you meaningful breathing room — which is exactly what it should be used for. Increasing your retirement contributions and maintaining your emergency fund are your top priorities at this stage.";
+    }
+  } else { el.style.display='none'; }
+
+  // ── Retirement ──
+  const curAge   = parseInt(document.getElementById('current-age').value) || 0;
+  const retAge   = parseInt(document.getElementById('retire-age').value)  || 0;
+  const years    = retAge - curAge;
+  const totalContrib = monthlyContrib * 12 * (years > 0 ? years : 0);
+  const totalMatch   = matchAmt * 12 * (years > 0 ? years : 0);
+
+  document.getElementById('stat-years').textContent = years > 0 ? years : '—';
+  document.getElementById('stat-you').textContent   = totalContrib > 0 ? fmt(totalContrib) : '—';
+  document.getElementById('stat-match').textContent = totalMatch   > 0 ? fmt(totalMatch)   : '—';
+  document.getElementById('retire-age-display').textContent = retAge > 0 ? retAge : '—';
+
+  if(years > 0 && monthlyContrib > 0){
+    const r = 0.07 / 12; // monthly rate
+    const n = years * 12;
+    const totalMonthly = monthlyContrib + matchAmt;
+    // FV of annuity: PMT * ((1+r)^n - 1) / r
+    totalAtRetire = totalMonthly * (Math.pow(1+r, n) - 1) / r;
+    const growthEarned = totalAtRetire - totalContrib - totalMatch;
+
+    document.getElementById('stat-growth').textContent = fmt(growthEarned);
+    document.getElementById('total-at-retire').textContent = fmt(totalAtRetire);
+    document.getElementById('retire-sub').textContent =
+      'Contributing '+fmt(monthlyContrib)+'/mo (you) + '+fmt(matchAmt)+'/mo (employer match) for '+years+' years at 7% avg annual return.';
+
+    // Build chart data
+    const dataPoints = [], labels = [];
+    let running = 0;
+    for(let yr = 0; yr <= years; yr++){
+      if(yr > 0) running = running * Math.pow(1+r,12) + totalMonthly * (Math.pow(1+r,12)-1)/r;
+      dataPoints.push(Math.round(running));
+      labels.push('Age '+(curAge+yr));
+    }
+    drawChart(dataPoints, labels);
+  } else {
+    totalAtRetire = 0;
+    document.getElementById('stat-growth').textContent     = '—';
+    document.getElementById('total-at-retire').textContent = '—';
+    document.getElementById('retire-sub').textContent      = 'Enter your current age, retirement age, and monthly contribution above.';
+  }
+
+  // ── Retirement comparison ──
+  const monthlyNeed   = totalExpenses * 0.65;
+  const annualNeed    = monthlyNeed * 12;
+  const savingsTarget = annualNeed * 25;
+  const gap           = totalAtRetire - savingsTarget;
+
+  document.getElementById('cmp-expenses').textContent     = totalExpenses > 0 ? fmt(totalExpenses)+'/mo' : '—';
+  document.getElementById('cmp-monthly-need').textContent  = monthlyNeed  > 0 ? fmt(monthlyNeed)+'/mo'   : '—';
+  document.getElementById('cmp-annual-need').textContent   = annualNeed   > 0 ? fmt(annualNeed)+'/yr'    : '—';
+  document.getElementById('cmp-target').textContent        = savingsTarget > 0 ? fmt(savingsTarget)       : '—';
+  document.getElementById('cmp-projected').textContent     = totalAtRetire > 0 ? fmt(totalAtRetire)       : '—';
+  document.getElementById('pill-retire').textContent       = totalAtRetire > 0 ? fmt(totalAtRetire)       : '—';
+  document.getElementById('pill-s3').textContent           = s3Net > 0 ? fmt(savings)+'/mo' : '—';
+
+  if(totalAtRetire > 0 && savingsTarget > 0){
+    const gapEl   = document.getElementById('cmp-gap');
+    const noteEl  = document.getElementById('cmp-gap-note');
+    const resEl   = document.getElementById('retirement-result');
+    const resHd   = document.getElementById('rr-head');
+    const resBd   = document.getElementById('rr-body');
+    resEl.style.display = 'block';
+
+    if(gap >= 0){
+      gapEl.textContent  = '+'+fmt(gap);
+      gapEl.className    = 'c-winner';
+      noteEl.textContent = 'Surplus — you are on track!';
+      resEl.className    = 'ret-result good';
+      resHd.style.color  = '#085041';
+      resBd.style.color  = '#085041';
+      resHd.textContent  = 'You are on track for retirement!';
+      resBd.textContent  = "Based on your contribution plan, you'll accumulate more than enough to fund your estimated retirement needs. This is a great position to be in. Keep in mind this is an estimate — inflation, unexpected costs, and market variability all affect the outcome. But the fundamentals are solid. Continue contributing consistently and increase your amount whenever you get a raise.";
+    } else if(gap > -savingsTarget * 0.25){
+      gapEl.textContent  = fmt(Math.abs(gap))+' short';
+      gapEl.className    = 'c-loser';
+      noteEl.textContent = 'Close — increase contributions if possible';
+      resEl.className    = 'ret-result warn';
+      resHd.style.color  = '#633806';
+      resBd.style.color  = '#854F0B';
+      resHd.textContent  = 'You\'re close, but there\'s a gap to close.';
+      resBd.textContent  = "Your projected savings won't quite reach your estimated retirement target, but you're not far off. A few strategies to close the gap: increase your monthly contribution by even $50–$100, take full advantage of any employer match (it's free money), or plan to work a few additional years. Small increases compound significantly over time.";
+    } else {
+      gapEl.textContent  = fmt(Math.abs(gap))+' short';
+      gapEl.className    = 'c-loser';
+      noteEl.textContent = 'Significant gap — contributions need to increase';
+      resEl.className    = 'ret-result bad';
+      resHd.style.color  = '#7A1F1F';
+      resBd.style.color  = '#7A1F1F';
+      resHd.textContent  = 'Your current plan leaves a significant gap.';
+      resBd.textContent  = "At your current contribution rate, you will reach retirement age with significantly less than your estimated target. This means you'd either need to cut spending dramatically in retirement, work longer, or — most realistically — increase how much you're saving now. Try raising your monthly contribution in the calculator above and see how much of a difference even $100–$200 more per month makes over 30+ years.";
+    }
+  }
+}
+
+// Initial render
+recalc();
+</script>
+</body>
+</html>
