@@ -135,11 +135,28 @@
     .final-pill  { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 500; }
     .final-pill span { font-family: 'Fraunces', serif; font-weight: 600; }
 
-    /* ── CODAP ── */
-    .codap-box { background: var(--green); border-radius: 16px; padding: 1.75rem; color: white; text-align: center; }
-    .codap-box h3 { font-family: 'Fraunces', serif; font-size: 20px; margin-bottom: 0.5rem; }
-    .codap-box p  { font-size: 14px; opacity: 0.9; margin-bottom: 1.25rem; max-width: 480px; margin-left: auto; margin-right: auto; }
-    .codap-btn { display: inline-block; background: white; color: #1A5A38; padding: 10px 24px; border-radius: 24px; font-weight: 600; font-size: 14px; text-decoration: none; }
+    /* ── WARNING BANNER ── */
+    .warn-banner { background: #7A1F1F; color: white; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 2rem; display: flex; gap: 14px; align-items: flex-start; }
+    .warn-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .warn-banner h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .warn-banner p  { font-size: 13px; opacity: 0.9; line-height: 1.6; }
+
+    /* ── WRITING PROMPT SYSTEM ── */
+    .write-section { border: 2px solid #2D7D52; border-radius: 16px; overflow: hidden; margin-top: 1rem; }
+    .ws-header { background: #2D7D52; color: white; padding: 1rem 1.25rem; }
+    .ws-header h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; margin-bottom: 3px; }
+    .ws-header p { font-size: 13px; opacity: 0.88; }
+    .ws-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; background: var(--card); }
+    .ws-task { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .ws-task-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; }
+    .ws-task-head.screenshot { background: #EEF4FA; color: #185FA5; border-bottom: 1px solid #B5D4F4; }
+    .ws-task-head.write      { background: #EAF5EF; color: #0F6E56; border-bottom: 1px solid #9FE1CB; }
+    .ws-task-head.paste      { background: #F0EEFE; color: #3C3489; border-bottom: 1px solid #AFA9EC; }
+    .ws-task-body { padding: 12px 14px; font-size: 14px; line-height: 1.7; color: var(--text); }
+    .ws-task-body ul { padding-left: 1.2rem; margin-top: 8px; }
+    .ws-task-body li { margin-bottom: 5px; }
+    .ws-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .ws-divider { border: none; border-top: 2px dashed var(--border); margin: 0; }
 
     @media (max-width: 540px) {
       .sum-bar { grid-template-columns: 1fr; }
@@ -195,6 +212,15 @@
 </div>
 
 <main class="main">
+
+  <!-- ── WARNING BANNER ── -->
+  <div class="warn-banner">
+    <div class="warn-icon">⚠️</div>
+    <div>
+      <h4>Do not close or refresh this tab — your work will be lost</h4>
+      <p>This website does not save your data. Keep this tab open the entire time. Your Google Doc from Stages 1 and 2 should already be open in another tab — you will finish your paper here. This is your final stage. Take your time.</p>
+    </div>
+  </div>
 
   <!-- ══ SECTION 1: THE RAISE ══ -->
   <section class="section">
@@ -619,49 +645,201 @@
     </div>
   </section>
 
-  <!-- ══ SECTION 5: YOUR FULL LIFE PLAN ══ -->
+  <!-- ══ SECTION 5: YOUR FULL LIFE PLAN SUMMARY ══ -->
   <section class="section">
     <div class="sec-label">
       <div class="sec-num">5</div>
-      <h2 class="sec-title">Your complete life plan</h2>
+      <h2 class="sec-title">Your complete life — at a glance</h2>
     </div>
 
     <div class="final-card">
       <h2>You've built your financial life, <span id="final-name">friend</span>.</h2>
-      <p>Here's the arc of your journey from graduation to retirement as a <span id="final-career">professional</span> in <span id="final-city">your city</span>.</p>
+      <p>Here's the arc of your journey from graduation to retirement as a <span id="final-career">professional</span> in <span id="final-city">your city</span>. Screenshot this card for your paper.</p>
       <div class="final-pills">
         <div class="final-pill">Stage 1 savings: <span id="pill-s1">—</span>/mo</div>
         <div class="final-pill">Home price: <span id="pill-home">—</span></div>
         <div class="final-pill">Stage 3 savings: <span id="pill-s3">—</span>/mo</div>
         <div class="final-pill">Retirement: <span id="pill-retire">—</span></div>
       </div>
-      <p style="font-size:13px;opacity:0.75;margin-bottom:0;">These numbers are yours — real math, real choices, real consequences. The habits you build now shape every stage that follows.</p>
+      <p style="font-size:13px;opacity:0.75;margin-bottom:0;">These numbers are yours — real math, real choices, real consequences.</p>
     </div>
   </section>
 
-  <!-- ══ SECTION 6: CODAP ══ -->
+  <!-- ══ SECTION 6: WRITE YOUR PAPER ══ -->
   <section class="section">
     <div class="sec-label">
       <div class="sec-num">6</div>
-      <h2 class="sec-title">Your final CODAP assignment</h2>
+      <h2 class="sec-title">Write your paper — Stage 3 &amp; Final Reflection</h2>
     </div>
 
-    <div class="codap-box">
-      <h3>Stage 3 — Final CODAP Task</h3>
-      <p>Open your CODAP file and add a Stage 3 sheet. This is your final submission — it should contain all three stages and tell the story of your complete financial life plan.</p>
-      <a class="codap-btn" href="https://codap.concord.org/app/static/dg/en/cert/index.html" target="_blank">Open Stage 3 CODAP Template ↗</a>
+    <div class="box-yellow" style="margin-bottom:1rem;">
+      <span class="box-label">Before you start writing</span>
+      Make sure Sections 1–4 on this page are fully filled in — your updated budget, your retirement contribution, and your gap analysis should all show numbers. Then follow the steps below to finish your paper. This is your last writing section. Your Google Doc should already have Sections 1–5 from Stages 1 and 2.
     </div>
 
-    <div class="card" style="margin-top:0.75rem;">
-      <p style="font-size:14px;font-weight:500;margin-bottom:10px;">Your final CODAP file must include all three stages plus:</p>
-      <ul style="font-size:14px;color:var(--muted);line-height:2.2;padding-left:1.25rem;">
-        <li>Your updated Stage 3 monthly budget with every line item</li>
-        <li>Your monthly retirement contribution and employer match amount</li>
-        <li>Your projected retirement savings total</li>
-        <li>Your retirement savings target (25× annual need) and whether you hit it</li>
-        <li>The gap or surplus between your projected savings and your target</li>
-        <li>A final written reflection (5–7 sentences): What did this project teach you about money that surprised you most? What would you do differently in any stage? What is one financial habit you want to start now because of what you learned?</li>
-      </ul>
+    <div class="write-section">
+      <div class="ws-header">
+        <h3>Stage 3 — Settled Life, Retirement &amp; Your Final Reflection</h3>
+        <p>Complete all five steps below to finish your paper.</p>
+      </div>
+      <div class="ws-body">
+
+        <!-- STEP 1 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 1 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            Find the purple raise banner near the top of this page — the one that shows your Stage 1 take-home pay and your new Stage 3 take-home pay side by side. Take a screenshot of just that banner.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Scroll to the bottom of everything you have written. Press Enter twice and type this bold heading: <strong>Section 6: My Settled Life and a 10% Raise</strong>. Press Enter and paste the screenshot.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshot</span></div>
+          <div class="ws-task-body">
+            Write a paragraph (3–5 sentences) about what the raise means:
+            <ul>
+              <li>How much more per month are you earning compared to Stage 1? What does that extra money feel like — a lot or a little?</li>
+              <li>This page explained the idea of "lifestyle creep" — the tendency to spend more as you earn more. What is one specific way you plan to avoid lifestyle creep with this raise?</li>
+              <li>Of the extra money from your raise, how much is going toward retirement contributions versus other expenses?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 2 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 2 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            Scroll to the Stage 3 budget section. Take a screenshot of the three summary boxes at the top — "Monthly income," "Total expenses," and "Left to save" — and the progress bar below them. Make sure your budget is fully filled in before you take this screenshot.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Click below your last paragraph, press Enter twice, type the bold heading <strong>Section 7: My Settled-Life Budget</strong>, press Enter, and paste the screenshot.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshot</span></div>
+          <div class="ws-task-body">
+            Write a paragraph (4–6 sentences) comparing this budget to your Stage 1 budget:
+            <ul>
+              <li>What are the biggest new expenses in Stage 3 that did not exist in Stage 1? (Think: mortgage instead of rent, life insurance, kids' activities, bigger grocery bills.)</li>
+              <li>Even with a 10% raise, are you saving more or less per month in Stage 3 than you were in Stage 1? Why?</li>
+              <li>Does your progress bar show a healthy budget or an over-stretched one? What does that tell you about the financial pressure of this life stage?</li>
+              <li>What is one expense in Stage 3 that surprised you the most?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 3 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 3 — Take two screenshots</span></div>
+          <div class="ws-task-body">
+            You need two screenshots for this step:
+            <ul>
+              <li><strong>Screenshot A:</strong> The large purple retirement box that shows your total projected savings at retirement (the big number in the center of Section 3).</li>
+              <li><strong>Screenshot B:</strong> The retirement growth chart below it — the line graph showing your nest egg growing year by year.</li>
+            </ul>
+            Take both screenshots now. Make sure you have entered your age, retirement age, monthly contribution, and employer match before screenshotting.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Press Enter twice below your last paragraph, type the bold heading <strong>Section 8: Planning for Retirement</strong>, press Enter, and paste Screenshot A. Press Enter again and paste Screenshot B below it.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshots</span></div>
+          <div class="ws-task-body">
+            Write a paragraph (5–7 sentences) analyzing your retirement projection. This is one of the most important things you will write in this project:
+            <ul>
+              <li>How much will you have saved by the time you retire? Does that number feel large or small to you?</li>
+              <li>Look at the four stat cards above the chart — how much of your total comes from your own contributions, how much from your employer's match, and how much from compound growth (returns)? What do you notice about where most of the money comes from?</li>
+              <li>The chart shows your savings growing slowly at first and then much faster near the end. This is compound interest in action. In your own words, explain why starting to save early matters so much — what happens if you wait 10 years to start?</li>
+              <li>What would change if you increased your monthly contribution by just $100? (You don't need to recalculate — just reason through it.)</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 4 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 4 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            Scroll to Section 4 — "Will it be enough?" Take a screenshot of the full comparison table (from "Your Stage 3 monthly expenses" through "Gap or surplus") AND the colored result box below it (the green, yellow, or red callout that tells you whether you are on track).
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Press Enter twice below your last paragraph, type the bold heading <strong>Section 9: Will My Retirement Savings Be Enough?</strong>, press Enter, and paste the screenshot.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshot</span></div>
+          <div class="ws-task-body">
+            Write a paragraph (4–6 sentences) about your retirement gap analysis:
+            <ul>
+              <li>What is your savings target — the total amount you need to retire comfortably? How did we calculate that number?</li>
+              <li>Are you on track, close, or significantly behind? What is your gap or surplus?</li>
+              <li>If you have a gap, what are two realistic things you could do to close it? (Examples: contribute more, retire later, reduce expenses now, take full advantage of employer match.)</li>
+              <li>Does knowing your retirement number change how you think about money decisions you make right now — even as a college student?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 5 — FINAL REFLECTION -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 5 — Take one last screenshot</span></div>
+          <div class="ws-task-body">
+            Scroll up to Section 5 — "Your complete life — at a glance." Take a screenshot of the full purple summary card that shows your Stage 1 savings, home price, Stage 3 savings, and retirement total all in one place.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Press Enter twice below your last paragraph, type the bold heading <strong>Final Reflection: My Financial Life Plan</strong>, press Enter, and paste the screenshot. This is the last screenshot in your paper.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write your final reflection — below the screenshot</span></div>
+          <div class="ws-task-body">
+            This is the last thing you will write. It should be your most thoughtful paragraph — at least 6–8 sentences. Do not summarize what you already wrote. Instead, step back and reflect on the whole experience:
+            <ul>
+              <li>Looking across all three stages of your financial life, what is the single most surprising thing you learned? Why did it surprise you?</li>
+              <li>Which stage felt the most financially stressful? Why?</li>
+              <li>Is the life you planned in this project the life you actually want, or did doing the math change your thinking about any of your choices — career, city, home, family size?</li>
+              <li>What is one financial habit or decision you plan to make differently in your real life because of what you discovered in this project?</li>
+              <li>If you could go back to Stage 1 and change one thing — one number, one choice — what would it be and why?</li>
+              <li>What advice would you give to someone younger than you — maybe a high school student — about money and planning ahead?</li>
+            </ul>
+            <strong style="display:block;margin-top:12px;">When you finish writing, check that your Google Doc shows "Saved to Drive" at the top. Your paper is complete. Submit your Google Doc link to your instructor as directed.</strong>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
