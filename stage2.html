@@ -121,11 +121,28 @@
     .own-tbl .tot-row td { background: var(--bg); font-weight: 600; font-size: 15px; border-top: 2px solid var(--border); }
     .own-tbl .tot-row .oval { font-family: 'Fraunces', serif; font-size: 18px; color: var(--accent); }
 
-    /* ── CODAP BOX ── */
-    .codap-box { background: var(--accent); border-radius: 16px; padding: 1.75rem; color: white; text-align: center; }
-    .codap-box h3 { font-family: 'Fraunces', serif; font-size: 20px; margin-bottom: 0.5rem; }
-    .codap-box p  { font-size: 14px; opacity: 0.9; margin-bottom: 1.25rem; max-width: 480px; margin-left: auto; margin-right: auto; }
-    .codap-btn { display: inline-block; background: white; color: #254A38; padding: 10px 24px; border-radius: 24px; font-weight: 600; font-size: 14px; text-decoration: none; }
+    /* ── WARNING BANNER ── */
+    .warn-banner { background: #7A1F1F; color: white; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 2rem; display: flex; gap: 14px; align-items: flex-start; }
+    .warn-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .warn-banner h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .warn-banner p  { font-size: 13px; opacity: 0.9; line-height: 1.6; }
+
+    /* ── WRITING PROMPT SYSTEM ── */
+    .write-section { border: 2px solid #2D7D52; border-radius: 16px; overflow: hidden; margin-top: 1rem; }
+    .ws-header { background: #2D7D52; color: white; padding: 1rem 1.25rem; }
+    .ws-header h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; margin-bottom: 3px; }
+    .ws-header p { font-size: 13px; opacity: 0.88; }
+    .ws-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; background: var(--card); }
+    .ws-task { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .ws-task-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; }
+    .ws-task-head.screenshot { background: #EEF4FA; color: #185FA5; border-bottom: 1px solid #B5D4F4; }
+    .ws-task-head.write      { background: #EAF5EF; color: #0F6E56; border-bottom: 1px solid #9FE1CB; }
+    .ws-task-head.paste      { background: #F0EEFE; color: #3C3489; border-bottom: 1px solid #AFA9EC; }
+    .ws-task-body { padding: 12px 14px; font-size: 14px; line-height: 1.7; color: var(--text); }
+    .ws-task-body ul { padding-left: 1.2rem; margin-top: 8px; }
+    .ws-task-body li { margin-bottom: 5px; }
+    .ws-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .ws-divider { border: none; border-top: 2px dashed var(--border); margin: 0; }
 
     /* ── NEXT BUTTON ── */
     .next-btn { display: block; width: 100%; text-align: center; background: var(--text); color: white; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 2rem; text-decoration: none; }
@@ -183,6 +200,15 @@
 
 <!-- ── MAIN ── -->
 <main class="main">
+
+  <!-- ── WARNING BANNER ── -->
+  <div class="warn-banner">
+    <div class="warn-icon">⚠️</div>
+    <div>
+      <h4>Do not close or refresh this tab — your work will be lost</h4>
+      <p>This website does not save your data. Keep this tab open the entire time. Your Google Doc from Stage 1 should already be open in another tab — you will continue adding to it here. If you accidentally close this tab, you will need to re-enter your numbers from Stage 1 to get back here.</p>
+    </div>
+  </div>
 
   <!-- Stage 1 savings reminder -->
   <div id="s1-reminder" class="box-green" style="margin-bottom:2rem;display:none;">
@@ -449,30 +475,132 @@
     </div>
   </section>
 
-  <!-- ══ SECTION 5: CODAP ══ -->
+  <!-- ══ SECTION 5: WRITE YOUR PAPER ══ -->
   <section class="section">
     <div class="sec-label">
       <div class="sec-num">5</div>
-      <h2 class="sec-title">Your CODAP assignment</h2>
+      <h2 class="sec-title">Write your paper — Stage 2</h2>
     </div>
 
-    <div class="codap-box">
-      <h3>Stage 2 CODAP Task</h3>
-      <p>Open your Stage 1 CODAP file and add a Stage 2 sheet using the template below. Record your home details, savings timeline, loan calculations, and true ownership costs. Save your file — you'll build on it one more time in Stage 3.</p>
-      <a class="codap-btn" href="https://codap.concord.org/app/static/dg/en/cert/index.html" target="_blank">Open Stage 2 CODAP Template ↗</a>
+    <div class="box-yellow" style="margin-bottom:1rem;">
+      <span class="box-label">Before you start writing</span>
+      Make sure all four sections above are fully filled in — home price, savings timeline, mortgage details, and true ownership cost. All numbers should be showing. Then follow the steps below in order to add Stage 2 to your Google Doc.
     </div>
 
-    <div class="card" style="margin-top:0.75rem;">
-      <p style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:10px;">What your CODAP file should include for Stage 2:</p>
-      <ul style="font-size:14px;color:var(--muted);line-height:2.1;padding-left:1.25rem;">
-        <li>The home you found: location, listing price, link or address</li>
-        <li>Down payment amount and monthly savings rate toward it</li>
-        <li>How many months / years until you can buy</li>
-        <li>Loan amount, interest rate, and loan term</li>
-        <li>Monthly mortgage payment and total interest paid over life of loan</li>
-        <li>Full monthly homeownership cost breakdown</li>
-        <li>A written reflection: What surprised you most about the cost of buying a home?</li>
-      </ul>
+    <div class="write-section">
+      <div class="ws-header">
+        <h3>Stage 2 — Buying a Home</h3>
+        <p>Complete all four steps below. Your Google Doc should already be open from Stage 1.</p>
+      </div>
+      <div class="ws-body">
+
+        <!-- STEP 1 -->
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Step 1 — In your Google Doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Scroll to the bottom of what you wrote in Stage 1. Press Enter twice and type this bold heading: <strong>Section 4: Buying My First Home</strong>. Press Enter and write a short paragraph (3–4 sentences) that describes the home you found on Zillow:
+            <ul>
+              <li>What city is it in? What type of home is it — house, condo, townhome?</li>
+              <li>How many bedrooms/bathrooms? Any notable features?</li>
+              <li>Why did you choose this specific home?</li>
+              <li>What is the listing price?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 2 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 2 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            On this page, take a screenshot of the two stat cards showing the <strong>down payment (20%)</strong> and the <strong>loan amount</strong> — the gray boxes right below the home price input in Section 1. Then take a second screenshot of the <strong>savings timeline block</strong> — the large green-colored box that shows how long it will take you to save the down payment.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. After your paragraph about the home, press Enter twice and paste both screenshots one after the other (paste the down payment/loan screenshot first, then the timeline screenshot below it).
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshots</span></div>
+          <div class="ws-task-body">
+            Write a paragraph (4–6 sentences) analyzing your down payment and savings timeline:
+            <ul>
+              <li>How large is your down payment? Does that number feel like a lot or a little to you?</li>
+              <li>How many months or years will it take you to save that amount based on your Stage 1 savings rate? Does that timeline feel realistic?</li>
+              <li>What would you have to change to get there faster — save more, earn more, or choose a less expensive home?</li>
+              <li>At what approximate age would you be able to buy this home?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 3 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 3 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            In Section 3 (Your Mortgage), take a screenshot of the <strong>grand total cost breakdown table</strong> — the box that shows the home purchase price, your down payment, total payments to the bank, total interest paid, and the grand total you'll spend. This is the "true cost of this loan" section.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Press Enter twice below your last paragraph, type the bold heading <strong>Section 5: The Real Cost of a Mortgage</strong>, press Enter, and paste the screenshot.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshot</span></div>
+          <div class="ws-task-body">
+            Write a paragraph (5–7 sentences) about the true cost of the mortgage. This is often the most eye-opening part of the whole project — be honest about your reaction:
+            <ul>
+              <li>What is the total amount you will pay the bank over the full life of the loan?</li>
+              <li>How much of that is interest — money you pay the bank just for the privilege of borrowing — versus money that actually goes toward owning the home?</li>
+              <li>How does the total cost compare to the original Zillow listing price? For example, if the home listed for $300,000 and you will pay $550,000 total, that's nearly twice the asking price.</li>
+              <li>Does knowing this change how you think about buying a home versus renting? Why or why not?</li>
+              <li>What would happen to your total interest if you chose a 15-year loan instead of a 30-year loan? (You do not need to calculate this — just think about it and share your reasoning.)</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 4 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 4 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            In Section 4 (True Monthly Cost of Owning), take a screenshot of the full ownership cost table — from "Mortgage payment" down to "Total monthly housing cost."
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Press Enter twice below your last paragraph and paste the screenshot. No new heading needed — this is part of the same section.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshot</span></div>
+          <div class="ws-task-body">
+            Write a short paragraph (3–5 sentences):
+            <ul>
+              <li>What is your total monthly housing cost as a homeowner (including mortgage, taxes, insurance, and maintenance)?</li>
+              <li>How does that compare to the rent you had in Stage 1? Is homeownership more or less expensive per month than renting?</li>
+              <li>Were you surprised by any of the additional costs beyond the mortgage — like property taxes or the maintenance fund?</li>
+              <li>Even if monthly ownership costs more than renting, what are reasons someone might still prefer to own?</li>
+            </ul>
+            <strong>When done, check that your Google Doc has auto-saved. Then click the button below to continue to Stage 3.</strong>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
