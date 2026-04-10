@@ -142,6 +142,40 @@
 
     .next-btn { display: block; width: 100%; text-align: center; background: var(--text); color: white; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 2rem; }
 
+    /* ── WARNING BANNER ── */
+    .warn-banner { background: #7A1F1F; color: white; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 2rem; display: flex; gap: 14px; align-items: flex-start; }
+    .warn-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .warn-banner h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .warn-banner p  { font-size: 13px; opacity: 0.9; line-height: 1.6; }
+
+    /* ── GOOGLE DOC SETUP ── */
+    .doc-setup { background: #1A1A2E; color: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 2.5rem; }
+    .doc-setup h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; margin-bottom: 0.4rem; }
+    .doc-setup .ds-sub { font-size: 13px; opacity: 0.75; margin-bottom: 1.25rem; }
+    .doc-steps { display: flex; flex-direction: column; gap: 10px; }
+    .doc-step { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,0.07); border-radius: 10px; padding: 10px 14px; }
+    .doc-step-num { width: 26px; height: 26px; border-radius: 50%; background: #C17F3A; color: white; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .doc-step p { font-size: 13px; line-height: 1.6; opacity: 0.92; }
+    .doc-step strong { color: #FAC775; }
+    .doc-step code { background: rgba(255,255,255,0.15); padding: 1px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; }
+
+    /* ── WRITING PROMPT SYSTEM ── */
+    .write-section { border: 2px solid #2D7D52; border-radius: 16px; overflow: hidden; margin-top: 1rem; }
+    .ws-header { background: #2D7D52; color: white; padding: 1rem 1.25rem; }
+    .ws-header h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; margin-bottom: 3px; }
+    .ws-header p { font-size: 13px; opacity: 0.88; }
+    .ws-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; background: var(--card); }
+    .ws-task { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .ws-task-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; }
+    .ws-task-head.screenshot { background: #EEF4FA; color: #185FA5; border-bottom: 1px solid #B5D4F4; }
+    .ws-task-head.write      { background: #EAF5EF; color: #0F6E56; border-bottom: 1px solid #9FE1CB; }
+    .ws-task-head.paste      { background: #F0EEFE; color: #3C3489; border-bottom: 1px solid #AFA9EC; }
+    .ws-task-body { padding: 12px 14px; font-size: 14px; line-height: 1.7; color: var(--text); }
+    .ws-task-body ul { padding-left: 1.2rem; margin-top: 8px; }
+    .ws-task-body li { margin-bottom: 5px; }
+    .ws-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .ws-divider { border: none; border-top: 2px dashed var(--border); margin: 0; }
+
     @media (max-width: 540px) {
       .sum-bar { grid-template-columns: 1fr; }
       .hero h2 { font-size: 21px; }
@@ -197,6 +231,28 @@
 </div>
 
 <main class="main">
+
+  <!-- ── WARNING BANNER ── -->
+  <div class="warn-banner">
+    <div class="warn-icon">⚠️</div>
+    <div>
+      <h4>Do not close or refresh this tab — your work will be lost</h4>
+      <p>This website does not save your data. If you close this tab, navigate away, or refresh the page, everything you have entered will be gone and you will have to start over. Keep this tab open the entire time you work. You will take screenshots of your work and write your paper in a separate Google Doc tab.</p>
+    </div>
+  </div>
+
+  <!-- ── GOOGLE DOC SETUP ── -->
+  <div class="doc-setup">
+    <h3>First — set up your project document right now</h3>
+    <p class="ds-sub">You will write your entire final project in a Google Doc. Do these steps before you enter anything on this page.</p>
+    <div class="doc-steps">
+      <div class="doc-step"><div class="doc-step-num">1</div><p>Open a new browser tab. In the address bar, type <code>docs.google.com</code> and press Enter. Sign in with your Google account if you are prompted.</p></div>
+      <div class="doc-step"><div class="doc-step-num">2</div><p>Click the large colorful <strong>+</strong> button that says "Blank" underneath it. A new blank document will open.</p></div>
+      <div class="doc-step"><div class="doc-step-num">3</div><p>Click where it says <strong>"Untitled document"</strong> in the very top left corner. Delete those words and type your document name: <code>[YourLastName] Math105 LifeBudget 2025</code> — for example: <code>Martinez Math105 LifeBudget 2025</code>. Press Enter to save the name.</p></div>
+      <div class="doc-step"><div class="doc-step-num">4</div><p>Look near the top of the Google Doc page. You will see the words <strong>"Saved to Drive"</strong> with a small checkmark. Google Docs saves your work automatically every few seconds — you never need to press a Save button. This message confirms your work is safe.</p></div>
+      <div class="doc-step"><div class="doc-step-num">5</div><p>On the first line of your document, type this title: <strong>My Financial Life Plan</strong>. Press Enter twice, then type your full name on one line and today's date on the next line. Now switch back to this tab to begin your budget.</p></div>
+    </div>
+  </div>
 
   <!-- ══ SECTION 1: SALARY ══ -->
   <section class="section">
@@ -785,28 +841,156 @@
     </div>
   </section>
 
-  <!-- ══ SECTION 5: CODAP ══ -->
+  <!-- ══ SECTION 5: WRITE YOUR PAPER ══ -->
   <section class="section">
     <div class="sec-label">
       <div class="sec-num">5</div>
-      <h2 class="sec-title">Your CODAP assignment</h2>
+      <h2 class="sec-title">Write your paper — Stage 1</h2>
     </div>
-    <div class="codap-box">
-      <h3>Stage 1 CODAP Task</h3>
-      <p>Open the Stage 1 CODAP template below. Enter your salary, tax information, and every budget category with the number you researched. CODAP will calculate your totals. Download and save your file — you'll build on it in Stage 2.</p>
-      <a class="codap-btn" href="https://codap.concord.org/app/static/dg/en/cert/index.html" target="_blank">Open Stage 1 CODAP Template ↗</a>
+
+    <div class="box-yellow" style="margin-bottom:1rem;">
+      <span class="box-label">How this works</span>
+      You are going to build your paper one section at a time. Each step below tells you exactly what to screenshot, where to put it in your Google Doc, and what to write about it. You are not re-typing your numbers — you are taking screenshots and then writing analysis about what those numbers mean for your life. Follow these steps in order.
     </div>
-    <div class="card" style="margin-top:0.75rem;">
-      <p style="font-size:14px;font-weight:500;margin-bottom:10px;">Your CODAP file must include:</p>
-      <ul style="font-size:14px;color:var(--muted);line-height:2.2;padding-left:1.25rem;">
-        <li>Your career title and target city</li>
-        <li>Your gross annual salary and monthly take-home pay</li>
-        <li>The state you selected and whether it has income tax</li>
-        <li>Whether you included a partner's income (and their take-home if applicable)</li>
-        <li>Every budget line item with the amount you researched</li>
-        <li>Total monthly expenses and total monthly savings</li>
-        <li>A written reflection (3–5 sentences): What surprised you? Is this budget realistic? What would you change if you had to cut $200/month?</li>
-      </ul>
+
+    <div class="write-section">
+      <div class="ws-header">
+        <h3>Stage 1 — Your First Budget</h3>
+        <p>Complete all five steps below before moving to Stage 2.</p>
+      </div>
+      <div class="ws-body">
+
+        <!-- STEP 1 -->
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Step 1 — In your Google Doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc tab. After your name and date, press Enter twice and type this heading (make it bold by pressing Ctrl+B before you type it, then Ctrl+B again after):
+            <br><br>
+            <strong>Section 1: My Career and Starting Salary</strong>
+            <br><br>
+            Press Enter and write a short paragraph (3–4 sentences) that answers these questions:
+            <ul>
+              <li>What career did you choose and what city do you want to live in?</li>
+              <li>What is your gross annual salary? Where did you find that number?</li>
+              <li>Why did you choose this career and location?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 2 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 2 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            Look at the tax breakdown table on this page (Section 2 — "What actually hits your bank account"). Make sure you have entered your salary so the numbers are filled in. Take a screenshot of the entire tax table — from "Gross monthly salary" down to "Your monthly take-home pay."
+            <br><br>
+            <strong>How to take a screenshot:</strong><br>
+            On a Mac: Press <strong>Command + Shift + 4</strong>, then drag to select the area.<br>
+            On Windows: Press <strong>Windows key + Shift + S</strong>, then drag to select the area.<br>
+            On Chromebook: Press <strong>Ctrl + Shift + Show Windows key</strong>, then drag.<br>
+            The screenshot saves to your Downloads folder or clipboard automatically.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Click at the end of your paragraph from Step 1, press Enter twice, and paste the screenshot: press <strong>Ctrl+V</strong> (Windows/Chromebook) or <strong>Command+V</strong> (Mac). The image should appear in your document.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshot</span></div>
+          <div class="ws-task-body">
+            Click below the screenshot image and write a paragraph (4–6 sentences) that answers these questions. Do not just repeat the numbers — analyze what they mean:
+            <ul>
+              <li>How much money do you lose to taxes each month in total?</li>
+              <li>Which tax took the biggest chunk out of your paycheck — federal, state, or FICA?</li>
+              <li>Your take-home pay is what you actually live on. How does that number compare to the salary number you saw when you researched your career? Were you surprised by the difference?</li>
+              <li>If your state has no income tax, how much extra per month does that give you compared to a state that does? If it does have income tax, what does that cost you monthly?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 3 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 3 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            Scroll up on this page to the budget progress bar and the three summary boxes that show "Monthly income," "Total expenses," and "Left to save." Make sure all your budget line items are filled in. Take a screenshot that captures both the progress bar AND the three summary boxes together.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Click below your last paragraph, press Enter twice, and type this bold heading: <strong>Section 2: My Monthly Budget</strong>. Press Enter and paste the screenshot.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshot</span></div>
+          <div class="ws-task-body">
+            Write a paragraph (5–7 sentences) analyzing your budget:
+            <ul>
+              <li>What is your single biggest monthly expense? Does that surprise you?</li>
+              <li>What percentage of your take-home pay goes to housing (rent) alone? Is that more or less than the 50% guideline for all needs combined?</li>
+              <li>Was any category more expensive than you expected when you researched it?</li>
+              <li>Is your progress bar green, yellow, or red? What does that tell you about your budget?</li>
+              <li>If you had to cut $200 from this budget, which category would you cut and why? What would you have to give up?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 4 -->
+        <div class="ws-task">
+          <div class="ws-task-head screenshot"><span class="ws-badge">📸 Step 4 — Take a screenshot</span></div>
+          <div class="ws-task-body">
+            Scroll down to Section 4 — "Your savings snapshot." Take a screenshot of the three summary boxes ("Monthly take-home," "Total spending," "Monthly savings") AND the green, yellow, or red callout box below them that gives you feedback on your savings.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head paste"><span class="ws-badge">📋 Paste into your doc</span></div>
+          <div class="ws-task-body">
+            Switch to your Google Doc. Click below your last paragraph, press Enter twice, type the bold heading <strong>Section 3: My Savings and Emergency Fund</strong>, press Enter, and paste the screenshot.
+          </div>
+        </div>
+
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Write below the screenshot</span></div>
+          <div class="ws-task-body">
+            Write a paragraph (4–6 sentences) about your savings situation:
+            <ul>
+              <li>How much are you saving per month? Is this enough to feel financially secure, or does it feel tight?</li>
+              <li>Your emergency fund goal is listed on this page. At your current savings rate, how many months would it take to fully build that emergency fund? (Hint: divide the goal by your monthly savings.)</li>
+              <li>What does having — or not having — an emergency fund mean for your day-to-day financial stress?</li>
+              <li>What is one thing you would do differently in this budget if you could change one decision (career, city, or a specific expense)?</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="ws-divider">
+
+        <!-- STEP 5 -->
+        <div class="ws-task">
+          <div class="ws-task-head write"><span class="ws-badge">✏️ Step 5 — Stage 1 closing reflection</span></div>
+          <div class="ws-task-body">
+            In your Google Doc, press Enter twice after your last paragraph and type the bold heading <strong>Stage 1 Reflection</strong>. Then write a final short paragraph (3–4 sentences) about your biggest takeaway from Stage 1. This is not a summary — it is your honest reaction. Consider:
+            <ul>
+              <li>What did this stage teach you about money that you did not know before?</li>
+              <li>Does the life you planned feel achievable based on what you found, or do you need to rethink something?</li>
+              <li>What would you tell a friend who was about to graduate and start their first job about budgeting?</li>
+            </ul>
+            <strong>When you are done writing, check that your Google Doc has auto-saved (look for "Saved to Drive" near the top). Then come back here and click the button below to continue to Stage 2.</strong>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
