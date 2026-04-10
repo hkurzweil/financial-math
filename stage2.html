@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage 2: Buying a Home — Life Budget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F4F7F4; --card: #FFFFFF; --text: #1E2A22; --muted: #637068;
+      --border: #CDD9CE; --accent: #3D6E5A; --amber: #C17F3A;
+      --blue: #4A7BA7; --red: #B84040; --green: #2D7D52;
+    }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 0.6rem 1.25rem; display: flex; align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; flex: 1; }
+    .header-sub  { font-size: 12px; color: var(--muted); }
+    .stage-track { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
+    .st-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+    .st-dot.done { background: var(--amber); }
+    .st-dot.on   { background: var(--accent); width: 28px; border-radius: 5px; }
+
+    /* ── HERO ── */
+    .hero { background: var(--accent); color: white; padding: 2rem 1.5rem 1.75rem; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); border-radius: 20px; padding: 3px 12px; font-size: 11px; font-weight: 500; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .hero h2 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; line-height: 1.25; margin-bottom: 0.4rem; }
+    .hero p   { font-size: 14px; opacity: 0.88; max-width: 520px; }
+
+    /* ── LAYOUT ── */
+    .main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    .section { margin-bottom: 2.75rem; }
+    .sec-label { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .sec-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: white; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sec-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+
+    /* ── CARDS ── */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; }
+    .card + .card { margin-top: 0.75rem; }
+
+    /* ── CALLOUT BOXES ── */
+    .box-blue   { background: #EEF4FA; border: 1px solid #B5D4F4; border-radius: 10px; padding: 1rem 1.25rem; color: #185FA5; font-size: 14px; margin-bottom: 1rem; }
+    .box-yellow { background: #FFF8EE; border: 1px solid #FAC775; border-radius: 10px; padding: 1rem 1.25rem; color: #633806; font-size: 14px; }
+    .box-green  { background: #EAF5EF; border: 1px solid #9FE1CB; border-radius: 12px; padding: 1.25rem; color: #0F6E56; font-size: 14px; }
+    .box-red    { background: #FCEBEB; border: 1px solid #F09595; border-radius: 12px; padding: 1.25rem; color: #7A1F1F; font-size: 14px; }
+    .box-label  { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 4px; display: block; }
+
+    /* ── RESOURCE LINKS ── */
+    .res-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.75rem; }
+    .res-link { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; font-weight: 500; color: var(--blue); text-decoration: none; }
+    .res-link:hover { border-color: var(--blue); }
+
+    /* ── INPUTS ── */
+    .field-group { margin-bottom: 1rem; }
+    .field-group label { display: block; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 5px; }
+    .dollar-field { display: flex; align-items: stretch; border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--card); }
+    .dollar-field:focus-within { border-color: var(--accent); }
+    .dollar-field .sym { padding: 0 10px; background: var(--bg); border-right: 1px solid var(--border); display: flex; align-items: center; font-size: 15px; color: var(--muted); font-weight: 500; }
+    .dollar-field .pct-sym { padding: 0 10px; background: var(--bg); border-left: 1px solid var(--border); display: flex; align-items: center; font-size: 15px; color: var(--muted); }
+    .dollar-field input { flex: 1; border: none; outline: none; padding: 0 12px; font-size: 15px; font-family: 'DM Sans', sans-serif; color: var(--text); height: 44px; background: transparent; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+    /* ── STAT CARDS ── */
+    .stat-grid { display: grid; gap: 0.75rem; }
+    .stat-grid.g2 { grid-template-columns: 1fr 1fr; }
+    .stat-grid.g3 { grid-template-columns: repeat(3, 1fr); }
+    .stat-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; text-align: center; }
+    .stat-card .slbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .stat-card .sval { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; }
+    .stat-card .ssub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .c-green { color: var(--green); }
+    .c-blue  { color: var(--blue); }
+    .c-amber { color: var(--amber); }
+    .c-red   { color: var(--red); }
+    .c-accent{ color: var(--accent); }
+
+    /* ── TIMELINE DISPLAY ── */
+    .timeline-block {
+      background: var(--accent); color: white; border-radius: 14px;
+      padding: 1.5rem; text-align: center; margin: 1rem 0;
+    }
+    .timeline-block .tl-label { font-size: 12px; opacity: 0.8; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+    .timeline-block .tl-value { font-family: 'Fraunces', serif; font-size: 38px; font-weight: 600; line-height: 1.1; }
+    .timeline-block .tl-sub   { font-size: 14px; opacity: 0.85; margin-top: 6px; }
+
+    /* ── AMORTIZATION HIGHLIGHT ── */
+    .amort-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-top: 1px solid var(--border); }
+    .amort-row:first-child { border-top: none; }
+    .amort-label { flex: 1; font-size: 14px; }
+    .amort-bar-wrap { flex: 2; background: var(--border); border-radius: 4px; height: 8px; overflow: hidden; }
+    .amort-bar { height: 100%; border-radius: 4px; }
+    .amort-val { min-width: 80px; text-align: right; font-size: 14px; font-weight: 500; }
+
+    /* ── IMPACT BOX ── */
+    .impact-box { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .impact-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 1.25rem; font-size: 14px; }
+    .impact-row + .impact-row { border-top: 1px solid var(--border); }
+    .impact-row .ilbl { color: var(--muted); }
+    .impact-row .ival { font-weight: 600; }
+    .impact-row.total { background: var(--bg); }
+    .impact-row.total .ilbl { font-weight: 600; color: var(--text); font-size: 15px; }
+    .impact-row.total .ival { font-family: 'Fraunces', serif; font-size: 18px; color: var(--accent); }
+
+    /* ── OWNERSHIP COST TABLE ── */
+    .own-tbl { width: 100%; border-collapse: collapse; }
+    .own-tbl td { padding: 10px 6px; font-size: 14px; vertical-align: middle; }
+    .own-tbl tr + tr td { border-top: 1px solid var(--border); }
+    .own-tbl .olbl { color: var(--text); }
+    .own-tbl .osub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .own-tbl .oval { text-align: right; font-weight: 500; min-width: 80px; }
+    .own-tbl .oinput { width: 110px; text-align: right; border: 1px solid var(--border); border-radius: 7px; padding: 6px 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); outline: none; display: block; margin-left: auto; }
+    .own-tbl .oinput:focus { border-color: var(--accent); background: var(--card); }
+    .own-tbl .tot-row td { background: var(--bg); font-weight: 600; font-size: 15px; border-top: 2px solid var(--border); }
+    .own-tbl .tot-row .oval { font-family: 'Fraunces', serif; font-size: 18px; color: var(--accent); }
+
+    /* ── CODAP BOX ── */
+    .codap-box { background: var(--accent); border-radius: 16px; padding: 1.75rem; color: white; text-align: center; }
+    .codap-box h3 { font-family: 'Fraunces', serif; font-size: 20px; margin-bottom: 0.5rem; }
+    .codap-box p  { font-size: 14px; opacity: 0.9; margin-bottom: 1.25rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .codap-btn { display: inline-block; background: white; color: #254A38; padding: 10px 24px; border-radius: 24px; font-weight: 600; font-size: 14px; text-decoration: none; }
+
+    /* ── NEXT BUTTON ── */
+    .next-btn { display: block; width: 100%; text-align: center; background: var(--text); color: white; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 2rem; text-decoration: none; }
+
+    @media (max-width: 520px) {
+      .two-col, .three-col { grid-template-columns: 1fr; }
+      .stat-grid.g2, .stat-grid.g3 { grid-template-columns: 1fr 1fr; }
+      .hero h2 { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <svg id="av-mini" viewBox="0 0 200 310" width="38" height="59" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+    <rect id="m-shirt"  x="52"  y="186" width="96"  height="118" rx="22" fill="#378ADD"/>
+    <path id="m-collar" d="M90 186 L100 202 L110 186" fill="#2469AA"/>
+    <rect id="m-neck"   x="87"  y="162" width="26"  height="28"  fill="#FEEBD3"/>
+    <g id="m-hsides"></g>
+    <circle id="m-earl" cx="43"  cy="114" r="10" fill="#FEEBD3"/>
+    <circle id="m-earr" cx="157" cy="114" r="10" fill="#FEEBD3"/>
+    <circle id="m-head" cx="100" cy="112" r="57" fill="#FEEBD3"/>
+    <g id="m-htop"><path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="#6B3F1E"/></g>
+    <path id="m-brl" d="M73 95 Q83 89 92 94"   stroke="#6B3F1E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path id="m-brr" d="M108 94 Q117 89 127 95" stroke="#6B3F1E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="82"  cy="108" rx="10" ry="10" fill="white"/>
+    <ellipse cx="118" cy="108" rx="10" ry="10" fill="white"/>
+    <circle id="m-irl" cx="82"  cy="108" r="6" fill="#6B3F1E"/>
+    <circle id="m-irr" cx="118" cy="108" r="6" fill="#6B3F1E"/>
+    <circle cx="83"  cy="107" r="2.5" fill="#111"/>
+    <circle cx="119" cy="107" r="2.5" fill="#111"/>
+    <circle cx="85"  cy="105" r="1.5" fill="white"/>
+    <circle cx="121" cy="105" r="1.5" fill="white"/>
+    <path d="M97 120 Q100 126 103 120" stroke="#C4855A" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M86 135 Q100 146 114 135" stroke="#B06060" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </svg>
+  <div style="flex:1;">
+    <div class="header-name" id="hdr-name">Life Budget</div>
+    <div class="header-sub"  id="hdr-sub">Stage 2 of 3</div>
+  </div>
+  <div class="stage-track">
+    <div class="st-dot done"></div>
+    <div class="st-dot on"></div>
+    <div class="st-dot"></div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge">STAGE 2 — PUTTING DOWN ROOTS</div>
+  <h2>Time to think about buying a home, <span id="hero-name">friend</span>.</h2>
+  <p>You've been working as a <span id="hero-career">professional</span> in <span id="hero-city">your city</span> and saving steadily. Now let's figure out how long it will take to buy a place — and what it will actually cost you.</p>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- Stage 1 savings reminder -->
+  <div id="s1-reminder" class="box-green" style="margin-bottom:2rem;display:none;">
+    <span class="box-label">Your savings from Stage 1</span>
+    You were saving <strong id="s1-savings-display">$—</strong>/month after expenses. That's what you have to work with toward a down payment. If that number is low or zero, you may want to revisit your Stage 1 budget first.
+  </div>
+  <div id="s1-warning" class="box-red" style="margin-bottom:2rem;display:none;">
+    <span class="box-label">No savings available from Stage 1</span>
+    Your Stage 1 budget didn't leave room for savings. To save for a home, you'll need to either increase your income or reduce your monthly expenses. For this stage, enter a savings amount you think would be realistic for you to set aside each month.
+  </div>
+
+  <!-- ══ SECTION 1: FIND YOUR HOME ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">1</div>
+      <h2 class="sec-title">Find a home on Zillow</h2>
+    </div>
+
+    <div class="card">
+      <div class="box-blue">
+        <span class="box-label">How to research a realistic home price</span>
+        Go to Zillow and search for homes in the city you chose in Stage 1. Look at what's actually listed — not your dream mansion, but a realistic starter home for your situation. Note the listing price. If you're in a rural area like Southwest Colorado, prices may be very different from national averages.
+      </div>
+
+      <div class="res-links" style="margin-bottom:1.25rem;">
+        <a class="res-link" href="https://www.zillow.com"         target="_blank">↗ Zillow</a>
+        <a class="res-link" href="https://www.realtor.com"        target="_blank">↗ Realtor.com</a>
+        <a class="res-link" href="https://www.redfin.com"         target="_blank">↗ Redfin</a>
+      </div>
+
+      <div class="two-col">
+        <div class="field-group">
+          <label for="home-price">Home listing price</label>
+          <div class="dollar-field">
+            <span class="sym">$</span>
+            <input type="number" id="home-price" placeholder="325,000" min="0" oninput="recalc()">
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:5px;">20% down payment</div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:0 12px;height:44px;display:flex;align-items:center;gap:6px;">
+            <span style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--accent);" id="down-display">—</span>
+            <span style="font-size:12px;color:var(--muted);">required to avoid PMI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-grid g2" style="margin-top:1rem;">
+        <div class="stat-card">
+          <div class="slbl">Down payment (20%)</div>
+          <div class="sval c-accent" id="stat-down">—</div>
+          <div class="ssub">saved before you buy</div>
+        </div>
+        <div class="stat-card">
+          <div class="slbl">Loan amount</div>
+          <div class="sval c-blue" id="stat-loan">—</div>
+          <div class="ssub">what you borrow from the bank</div>
+        </div>
+      </div>
+
+      <div class="box-blue" style="margin-top:1rem;margin-bottom:0;">
+        <span class="box-label">Why 20%?</span>
+        Putting 20% down means you avoid <strong>Private Mortgage Insurance (PMI)</strong> — an extra monthly fee (usually $50–200/month) that the lender charges when you borrow more than 80% of the home's value. It also means you start with equity in your home from day one and your monthly payments are lower.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 2: SAVINGS TIMELINE ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">2</div>
+      <h2 class="sec-title">How long to save the down payment?</h2>
+    </div>
+
+    <div class="card">
+      <div class="box-yellow" style="margin-bottom:1.25rem;">
+        <span class="box-label">Reality check</span>
+        Most people don't put 100% of their savings toward a home — they also have other goals (vacations, car repairs, retirement). Decide what portion of your monthly savings realistically goes toward the down payment fund.
+      </div>
+
+      <div class="two-col">
+        <div class="field-group" style="margin-bottom:0;">
+          <label for="monthly-savings">Monthly amount toward down payment</label>
+          <div class="dollar-field">
+            <span class="sym">$</span>
+            <input type="number" id="monthly-savings" placeholder="400" min="1" oninput="recalc()">
+          </div>
+          <div id="savings-hint" style="font-size:12px;color:var(--muted);margin-top:5px;"></div>
+        </div>
+        <div class="field-group" style="margin-bottom:0;">
+          <label>Down payment needed</label>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:0 12px;height:44px;display:flex;align-items:center;">
+            <span style="font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--accent);" id="down-needed">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-block" id="timeline-block">
+        <div class="tl-label">Time to save your down payment</div>
+        <div class="tl-value" id="tl-value">Enter a home price above</div>
+        <div class="tl-sub"   id="tl-sub"></div>
+      </div>
+
+      <div class="stat-grid g3">
+        <div class="stat-card">
+          <div class="slbl">Saving per month</div>
+          <div class="sval c-green" id="stat-mthly-save">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="slbl">Months to goal</div>
+          <div class="sval c-accent" id="stat-months">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="slbl">Buy date (approx.)</div>
+          <div class="sval c-blue" id="stat-buydate" style="font-size:16px;">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 3: YOUR MORTGAGE ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">3</div>
+      <h2 class="sec-title">Your mortgage</h2>
+    </div>
+
+    <div class="card">
+      <div class="box-blue" style="margin-bottom:1.25rem;">
+        <span class="box-label">How a mortgage works</span>
+        A mortgage is a loan from a bank to buy a home. You pay it back in equal monthly payments over many years. Each payment covers two things: <strong>interest</strong> (the bank's fee for lending you money) and <strong>principal</strong> (actual paydown of the loan). Early in the loan, most of your payment is interest — this is called amortization.
+      </div>
+
+      <div class="three-col">
+        <div class="field-group">
+          <label for="loan-amt-disp">Loan amount</label>
+          <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:0 12px;height:44px;display:flex;align-items:center;">
+            <span style="font-size:15px;color:var(--muted);">$&nbsp;</span>
+            <span id="loan-amt-disp" style="font-size:15px;font-weight:500;color:var(--text);">—</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">auto-filled from above</div>
+        </div>
+        <div class="field-group">
+          <label for="interest-rate">Annual interest rate</label>
+          <div class="dollar-field">
+            <input type="number" id="interest-rate" value="6.75" min="0.1" max="20" step="0.05" oninput="recalc()">
+            <span class="pct-sym">%</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">U.S. average ~6.7% (2025)</div>
+        </div>
+        <div class="field-group">
+          <label for="loan-term">Loan term</label>
+          <div class="dollar-field">
+            <input type="number" id="loan-term" value="30" min="5" max="30" step="5" oninput="recalc()">
+            <span class="pct-sym">yrs</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">30-year is most common</div>
+        </div>
+      </div>
+
+      <!-- Monthly payment highlight -->
+      <div style="background:var(--accent);color:white;border-radius:12px;padding:1.25rem;text-align:center;margin:0.5rem 0 1.25rem;">
+        <div style="font-size:12px;opacity:0.8;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Monthly mortgage payment</div>
+        <div style="font-family:'Fraunces',serif;font-size:40px;font-weight:600;" id="monthly-payment">—</div>
+        <div style="font-size:13px;opacity:0.85;margin-top:4px;" id="payment-sub">principal + interest only</div>
+      </div>
+
+      <!-- First payment breakdown -->
+      <div style="margin-bottom:1.25rem;">
+        <p style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:10px;">Where your first payment goes (principal vs. interest):</p>
+        <div class="amort-row">
+          <span class="amort-label">Interest</span>
+          <div class="amort-bar-wrap"><div class="amort-bar" id="int-bar" style="background:var(--red);width:0%;"></div></div>
+          <span class="amort-val c-red" id="int-val">—</span>
+        </div>
+        <div class="amort-row">
+          <span class="amort-label">Principal</span>
+          <div class="amort-bar-wrap"><div class="amort-bar" id="pri-bar" style="background:var(--green);width:0%;"></div></div>
+          <span class="amort-val c-green" id="pri-val">—</span>
+        </div>
+      </div>
+
+      <!-- Total cost breakdown -->
+      <p style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:8px;">The true cost of this loan over <span id="term-label">30</span> years:</p>
+      <div class="impact-box">
+        <div class="impact-row"><span class="ilbl">Home purchase price</span><span class="ival" id="imp-price">—</span></div>
+        <div class="impact-row"><span class="ilbl">Your down payment (paid upfront)</span><span class="ival c-accent" id="imp-down">—</span></div>
+        <div class="impact-row"><span class="ilbl">Total payments to the bank (<span id="imp-n">360</span> payments)</span><span class="ival" id="imp-total-paid">—</span></div>
+        <div class="impact-row"><span class="ilbl">Total interest paid over life of loan</span><span class="ival c-red" id="imp-interest">—</span></div>
+        <div class="impact-row total"><span class="ilbl">Grand total you'll spend to own this home</span><span class="ival" id="imp-grand">—</span></div>
+      </div>
+
+      <div class="box-yellow" style="margin-top:1rem;margin-bottom:0;">
+        <span class="box-label">Why interest adds up so much</span>
+        With a 30-year mortgage, the bank earns interest on a large balance for a long time. In the early years, almost all of your payment is interest — you're barely touching the principal. This is why paying even a little extra each month early on can save you tens of thousands of dollars in the long run.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 4: TRUE COST OF HOMEOWNERSHIP ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">4</div>
+      <h2 class="sec-title">True monthly cost of owning</h2>
+    </div>
+
+    <div class="card">
+      <div class="box-blue" style="margin-bottom:1.25rem;">
+        <span class="box-label">Owning costs more than just the mortgage</span>
+        New homeowners are often surprised by how many additional costs come with ownership. Property taxes, homeowners insurance, and maintenance are not optional — they're part of the deal. Factor these in before you decide you can "afford" a home.
+      </div>
+
+      <table class="own-tbl">
+        <tbody>
+          <tr>
+            <td>
+              <div class="olbl">Mortgage payment (P+I)</div>
+              <div class="osub">Principal + interest from Section 3</div>
+            </td>
+            <td class="oval"><span id="own-mortgage">—</span>/mo</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="olbl">Property taxes</div>
+              <div class="osub">Varies by county — estimate: <span id="prop-tax-hint">—</span>/mo (≈0.6% of home value/yr in La Plata County)</div>
+            </td>
+            <td class="oval">
+              <input class="oinput" type="number" id="prop-tax" min="0" placeholder="0" oninput="recalc()">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="olbl">Homeowners insurance</div>
+              <div class="osub">Required by your lender — typically $100–200/month</div>
+            </td>
+            <td class="oval">
+              <input class="oinput" type="number" id="home-ins" placeholder="0" min="0" oninput="recalc()">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="olbl">HOA fees</div>
+              <div class="osub">Enter $0 if the home has no HOA</div>
+            </td>
+            <td class="oval">
+              <input class="oinput" type="number" id="hoa" value="0" min="0" oninput="recalc()">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="olbl">Maintenance fund</div>
+              <div class="osub">Rule of thumb: budget 1% of home value per year for repairs</div>
+            </td>
+            <td class="oval">
+              <input class="oinput" type="number" id="maintenance" min="0" placeholder="0" oninput="recalc()">
+            </td>
+          </tr>
+          <tr class="tot-row">
+            <td><div class="olbl">Total monthly housing cost</div></td>
+            <td class="oval"><span id="own-total">—</span>/mo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 5: CODAP ══ -->
+  <section class="section">
+    <div class="sec-label">
+      <div class="sec-num">5</div>
+      <h2 class="sec-title">Your CODAP assignment</h2>
+    </div>
+
+    <div class="codap-box">
+      <h3>Stage 2 CODAP Task</h3>
+      <p>Open your Stage 1 CODAP file and add a Stage 2 sheet using the template below. Record your home details, savings timeline, loan calculations, and true ownership costs. Save your file — you'll build on it one more time in Stage 3.</p>
+      <a class="codap-btn" href="https://codap.concord.org/app/static/dg/en/cert/index.html" target="_blank">Open Stage 2 CODAP Template ↗</a>
+    </div>
+
+    <div class="card" style="margin-top:0.75rem;">
+      <p style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:10px;">What your CODAP file should include for Stage 2:</p>
+      <ul style="font-size:14px;color:var(--muted);line-height:2.1;padding-left:1.25rem;">
+        <li>The home you found: location, listing price, link or address</li>
+        <li>Down payment amount and monthly savings rate toward it</li>
+        <li>How many months / years until you can buy</li>
+        <li>Loan amount, interest rate, and loan term</li>
+        <li>Monthly mortgage payment and total interest paid over life of loan</li>
+        <li>Full monthly homeownership cost breakdown</li>
+        <li>A written reflection: What surprised you most about the cost of buying a home?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ NEXT STAGE BUTTON ══ -->
+  <button class="next-btn" onclick="goNext()">Continue to Stage 3: Retirement & the Long Game →</button>
+
+</main>
+
+<script>
+// ── READ URL PARAMS ─────────────────────────────────────────────────
+const p  = new URLSearchParams(window.location.search);
+const pr = {
+  name:    p.get('name')    || 'friend',
+  career:  p.get('career')  || 'professional',
+  city:    p.get('city')    || 'your city',
+  skin:    p.get('skin')    || '#FEEBD3',
+  style:   p.get('style')   || 'short',
+  texture: p.get('texture') || 'straight',
+  hair:    p.get('hair')    || '#6B3F1E',
+  eye:     p.get('eye')     || '#6B3F1E',
+  shirt:   p.get('shirt')   || '#378ADD',
+  collar:  p.get('collar')  || '#2469AA'
+};
+const s1Net      = parseFloat(p.get('net'))      || 0;
+const s1Expenses = parseFloat(p.get('expenses')) || 0;
+const s1Savings  = parseFloat(p.get('savings'))  || 0;
+
+// ── PAGE TEXT ────────────────────────────────────────────────────────
+document.getElementById('hdr-name').textContent   = pr.name + "'s Budget";
+document.getElementById('hdr-sub').textContent    = pr.career + ' in ' + pr.city + ' — Stage 2 of 3';
+document.getElementById('hero-name').textContent  = pr.name;
+document.getElementById('hero-career').textContent = pr.career;
+document.getElementById('hero-city').textContent   = pr.city;
+
+// Stage 1 savings reminder
+if (s1Savings > 0) {
+  document.getElementById('s1-reminder').style.display = 'block';
+  document.getElementById('s1-savings-display').textContent = '$' + Math.round(s1Savings).toLocaleString();
+  document.getElementById('monthly-savings').value = Math.round(s1Savings);
+  document.getElementById('savings-hint').textContent = 'Pre-filled from your Stage 1 savings — adjust if you want to allocate less toward the down payment.';
+} else if (s1Net > 0) {
+  document.getElementById('s1-warning').style.display = 'block';
+}
+
+// ── RECONSTRUCT MINI AVATAR ──────────────────────────────────────────
+const HAIR = {
+  bald:  { straight:{top:()=>'',sides:()=>''}, curly:{top:()=>'',sides:()=>''} },
+  short: {
+    straight:{top:c=>`<path d="M46 122 A57 57 0 0 1 154 122 Q152 66 128 59 Q114 55 100 55 Q86 55 72 59 Q48 66 46 122 Z" fill="${c}"/>`,sides:()=>''},
+    curly:  {top:c=>`<circle cx="66" cy="93" r="17" fill="${c}"/><circle cx="83" cy="77" r="18" fill="${c}"/><circle cx="100" cy="72" r="19" fill="${c}"/><circle cx="117" cy="77" r="18" fill="${c}"/><circle cx="134" cy="93" r="17" fill="${c}"/>`,sides:()=>''}
+  },
+  medium:{
+    straight:{top:c=>`<path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="${c}"/>`,sides:c=>`<rect x="35" y="104" width="19" height="76" rx="9" fill="${c}"/><rect x="146" y="104" width="19" height="76" rx="9" fill="${c}"/>`},
+    curly:  {top:c=>`<circle cx="60" cy="84" r="21" fill="${c}"/><circle cx="80" cy="63" r="23" fill="${c}"/><circle cx="100" cy="57" r="24" fill="${c}"/><circle cx="120" cy="63" r="23" fill="${c}"/><circle cx="140" cy="84" r="21" fill="${c}"/>`,sides:c=>`<circle cx="41" cy="112" r="17" fill="${c}"/><circle cx="41" cy="144" r="17" fill="${c}"/><circle cx="159" cy="112" r="17" fill="${c}"/><circle cx="159" cy="144" r="17" fill="${c}"/>`}
+  },
+  long:  {
+    straight:{top:c=>`<path d="M43 120 A57 57 0 0 1 157 120 Q150 52 100 50 Q50 52 43 120 Z" fill="${c}"/>`,sides:c=>`<rect x="34" y="102" width="21" height="158" rx="10" fill="${c}"/><rect x="145" y="102" width="21" height="158" rx="10" fill="${c}"/>`},
+    curly:  {top:c=>`<circle cx="58" cy="80" r="22" fill="${c}"/><circle cx="80" cy="58" r="24" fill="${c}"/><circle cx="103" cy="52" r="24" fill="${c}"/><circle cx="127" cy="60" r="22" fill="${c}"/><circle cx="147" cy="78" r="20" fill="${c}"/>`,sides:c=>`<circle cx="41" cy="110" r="17" fill="${c}"/><circle cx="41" cy="144" r="17" fill="${c}"/><circle cx="41" cy="176" r="16" fill="${c}"/><circle cx="159" cy="110" r="17" fill="${c}"/><circle cx="159" cy="144" r="17" fill="${c}"/><circle cx="159" cy="176" r="16" fill="${c}"/>`}
+  }
+};
+(function buildAvatar() {
+  const h = HAIR[pr.style]?.[pr.texture] || HAIR.short.straight;
+  document.getElementById('m-head').setAttribute('fill',  pr.skin);
+  document.getElementById('m-earl').setAttribute('fill',  pr.skin);
+  document.getElementById('m-earr').setAttribute('fill',  pr.skin);
+  document.getElementById('m-neck').setAttribute('fill',  pr.skin);
+  document.getElementById('m-shirt').setAttribute('fill', pr.shirt);
+  document.getElementById('m-collar').setAttribute('fill',pr.collar);
+  document.getElementById('m-htop').innerHTML   = h.top(pr.hair);
+  document.getElementById('m-hsides').innerHTML = h.sides(pr.hair);
+  document.getElementById('m-brl').setAttribute('stroke', pr.style === 'bald' ? 'transparent' : pr.hair);
+  document.getElementById('m-brr').setAttribute('stroke', pr.style === 'bald' ? 'transparent' : pr.hair);
+  document.getElementById('m-irl').setAttribute('fill', pr.eye);
+  document.getElementById('m-irr').setAttribute('fill', pr.eye);
+})();
+
+// ── HELPERS ──────────────────────────────────────────────────────────
+const fmt  = v => v > 0 ? '$' + Math.round(v).toLocaleString() : '—';
+const fmtD = v => v > 0 ? '$' + v.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',') : '—';
+
+function calcMortgage(principal, annualRate, termYears) {
+  const r = (annualRate / 100) / 12;
+  const n = termYears * 12;
+  if (r === 0) return principal / n;
+  return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+}
+
+// ── MAIN RECALCULATION ───────────────────────────────────────────────
+let calcResults = {};
+
+function recalc() {
+  const homePrice    = parseFloat(document.getElementById('home-price').value)      || 0;
+  const monthlySave  = parseFloat(document.getElementById('monthly-savings').value) || 0;
+  const rate         = parseFloat(document.getElementById('interest-rate').value)   || 6.75;
+  const term         = parseFloat(document.getElementById('loan-term').value)       || 30;
+  const propTax      = parseFloat(document.getElementById('prop-tax').value)        || 0;
+  const homeIns      = parseFloat(document.getElementById('home-ins').value)        || 0;
+  const hoa          = parseFloat(document.getElementById('hoa').value)             || 0;
+  const maintenance  = parseFloat(document.getElementById('maintenance').value)     || 0;
+
+  const downPayment  = homePrice * 0.20;
+  const loanAmt      = homePrice * 0.80;
+
+  // ── Section 1: Home price display ──
+  document.getElementById('down-display').textContent = homePrice > 0 ? '$' + Math.round(downPayment).toLocaleString() : '—';
+  document.getElementById('stat-down').textContent    = fmt(downPayment);
+  document.getElementById('stat-loan').textContent    = fmt(loanAmt);
+  document.getElementById('down-needed').textContent  = fmt(downPayment);
+
+  // Property tax hint (0.6% of home value / 12)
+  if (homePrice > 0) {
+    const ptHint = Math.round(homePrice * 0.006 / 12);
+    document.getElementById('prop-tax-hint').textContent = '$' + ptHint.toLocaleString();
+    const maintHint = Math.round(homePrice * 0.01 / 12);
+    if (!document.getElementById('maintenance').value) {
+      document.getElementById('maintenance').placeholder = maintHint;
+    }
+  }
+
+  // ── Section 2: Savings timeline ──
+  document.getElementById('stat-mthly-save').textContent = monthlySave > 0 ? '$' + Math.round(monthlySave).toLocaleString() : '—';
+  if (homePrice > 0 && monthlySave > 0) {
+    const months = Math.ceil(downPayment / monthlySave);
+    const years  = Math.floor(months / 12);
+    const rem    = months % 12;
+    const now    = new Date();
+    const buy    = new Date(now.getFullYear(), now.getMonth() + months, 1);
+    const buyStr = buy.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+    let tlVal = '';
+    if (years > 0 && rem > 0)  tlVal = years + ' yr ' + rem + ' mo';
+    else if (years > 0)         tlVal = years + (years === 1 ? ' year' : ' years');
+    else                        tlVal = months + (months === 1 ? ' month' : ' months');
+
+    document.getElementById('tl-value').textContent   = tlVal;
+    document.getElementById('tl-sub').textContent     = 'Saving $' + Math.round(monthlySave).toLocaleString() + '/month toward a $' + Math.round(downPayment).toLocaleString() + ' down payment';
+    document.getElementById('stat-months').textContent = months.toLocaleString();
+    document.getElementById('stat-buydate').textContent = buyStr;
+  } else {
+    document.getElementById('tl-value').textContent    = homePrice > 0 ? 'Enter a monthly savings amount' : 'Enter a home price above';
+    document.getElementById('tl-sub').textContent      = '';
+    document.getElementById('stat-months').textContent = '—';
+    document.getElementById('stat-buydate').textContent = '—';
+  }
+
+  // ── Section 3: Mortgage ──
+  const n = term * 12;
+  document.getElementById('loan-amt-disp').textContent = loanAmt > 0 ? Math.round(loanAmt).toLocaleString() : '—';
+  document.getElementById('term-label').textContent    = term;
+  document.getElementById('imp-n').textContent         = n;
+
+  let monthlyPmt = 0;
+  if (loanAmt > 0) {
+    monthlyPmt = calcMortgage(loanAmt, rate, term);
+    const totalPaid     = monthlyPmt * n;
+    const totalInterest = totalPaid - loanAmt;
+    const grandTotal    = downPayment + totalPaid;
+
+    // First payment interest/principal split
+    const monthlyRate = (rate / 100) / 12;
+    const firstInterest  = loanAmt * monthlyRate;
+    const firstPrincipal = monthlyPmt - firstInterest;
+    const intPct = Math.round((firstInterest / monthlyPmt) * 100);
+
+    document.getElementById('monthly-payment').textContent = '$' + Math.round(monthlyPmt).toLocaleString();
+    document.getElementById('payment-sub').textContent     = 'principal + interest only (no taxes or insurance)';
+    document.getElementById('int-bar').style.width  = intPct + '%';
+    document.getElementById('pri-bar').style.width  = (100 - intPct) + '%';
+    document.getElementById('int-val').textContent  = '$' + Math.round(firstInterest).toLocaleString();
+    document.getElementById('pri-val').textContent  = '$' + Math.round(firstPrincipal).toLocaleString();
+
+    document.getElementById('imp-price').textContent      = '$' + Math.round(homePrice).toLocaleString();
+    document.getElementById('imp-down').textContent       = '$' + Math.round(downPayment).toLocaleString();
+    document.getElementById('imp-total-paid').textContent = '$' + Math.round(totalPaid).toLocaleString();
+    document.getElementById('imp-interest').textContent   = '$' + Math.round(totalInterest).toLocaleString();
+    document.getElementById('imp-grand').textContent      = '$' + Math.round(grandTotal).toLocaleString();
+
+    // ── Section 4: Ownership costs ──
+    document.getElementById('own-mortgage').textContent = '$' + Math.round(monthlyPmt).toLocaleString();
+    const ownTotal = monthlyPmt + propTax + homeIns + hoa + maintenance;
+    document.getElementById('own-total').textContent    = '$' + Math.round(ownTotal).toLocaleString();
+
+    calcResults = { homePrice, downPayment, loanAmt, monthlyPmt: Math.round(monthlyPmt), totalPaid: Math.round(totalPaid), totalInterest: Math.round(totalInterest), grandTotal: Math.round(grandTotal), ownTotal: Math.round(ownTotal) };
+  } else {
+    document.getElementById('monthly-payment').textContent = '—';
+    document.getElementById('own-mortgage').textContent    = '—';
+    document.getElementById('own-total').textContent       = '—';
+    ['imp-price','imp-down','imp-total-paid','imp-interest','imp-grand','int-val','pri-val'].forEach(id => {
+      document.getElementById(id).textContent = '—';
+    });
+  }
+}
+
+// ── NAVIGATE TO STAGE 3 ──────────────────────────────────────────────
+function goNext() {
+  const nextP = new URLSearchParams({
+    ...Object.fromEntries(p.entries()),
+    homePrice:     calcResults.homePrice     || 0,
+    downPayment:   calcResults.downPayment   || 0,
+    loanAmt:       calcResults.loanAmt       || 0,
+    monthlyMortgage: calcResults.monthlyPmt  || 0,
+    totalInterest: calcResults.totalInterest || 0,
+    grandTotal:    calcResults.grandTotal    || 0,
+    ownTotal:      calcResults.ownTotal      || 0
+  });
+  window.location.href = 'stage3.html?' + nextP.toString();
+}
+
+// Initial render
+recalc();
+</script>
+</body>
+</html>
